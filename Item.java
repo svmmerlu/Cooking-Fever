@@ -85,7 +85,7 @@ class Item{
              GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);
              return font;
          } catch (Exception e) {
-             e.printStackTrace(); // print any exceptions (FontFormatException, IOException)
+             e.printStackTrace(); // print exceptions
              return null; // return null if loading fails
          }
     }

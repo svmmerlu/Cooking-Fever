@@ -1,5 +1,4 @@
 import java.awt.*;
-
 import javax.swing.*;
 
 class Hamburger{
@@ -491,14 +490,6 @@ class Hamburger{
     }
 
     public void draw(Graphics g) {
-        g.setColor(Color.RED);
-
-        // Draw the mouse press point if it exists
-        if (mousePressPoint != null && mouseHeld) {
-            g.setColor(Color.BLUE);
-            g.fillOval(mousePressPoint.x - 5, mousePressPoint.y - 5, 10, 10); // Small circle around the point
-        }
-
         if(plates < strs[PLATE] && mousePressPoint != null && bunbasket.contains(mousePressPoint) && mouseClicked){
             table[plates][HASPLATE] = true;
             plates++;

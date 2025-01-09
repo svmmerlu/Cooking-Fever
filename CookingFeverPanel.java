@@ -27,19 +27,18 @@ class CookingFeverPanel extends JPanel implements ActionListener {
         timer = new Timer(20, this);
         timer.start();
 
-        setPreferredSize(new Dimension(902, 630)); // Screen size
+        setPreferredSize(new Dimension(902, 630)); // screen size
         setFocusable(true);
         requestFocus();
         addMouseListener(new ClickListener());
     }
 
     public void setMouse() {
-        if (isShowing()) { // Ensure the panel is visible
+        if (isShowing()) { 
             Point p = MouseInfo.getPointerInfo().getLocation();
-            Point panelLocation = getLocationOnScreen(); // Safe to call here
+            Point panelLocation = getLocationOnScreen();
             Point mousePoint = new Point(p.x - panelLocation.x, p.y - panelLocation.y);
 
-            // Update mouse positions in all relevant objects
             home.setMouse(mousePoint);
             upgrades.setMouse(mousePoint);
             menu.setMouse(mousePoint);

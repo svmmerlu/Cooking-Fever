@@ -1,6 +1,5 @@
 import java.awt.*;
 import javax.swing.*;
-
 class Home {
     public static final Rectangle playRECT = new Rectangle(631, 449, 225, 65);
     public static final Rectangle upgradesRECT = new Rectangle(632, 532, 227, 65);

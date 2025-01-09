@@ -5,27 +5,21 @@ class ColaDispenser{
     public static final int GRABBED = 0, DISPENSED = 1;
     private Image [] imgs;
     private int [] strs;
-    private int grabbedtype, grabbedPlate, skip;
     private Rectangle grabbed;
     private long timer[];
     private Rectangle colaRects[][];
-    private Point mousePressPoint, mouseReleasePoint, p;
-    private boolean mouseHeld, mouseClicked, served;
+    private Point mousePressPoint, p;
+    private boolean mouseHeld, served;
     private boolean [][] cola;
     public ColaDispenser(){
-        skip = 0;
         served = false;
-        grabbedPlate = -1;
         grabbed = null;
-        grabbedtype = -1;
         timer = new long[]{0, 0, 0};
         strs = null;
         imgs = null;
         mouseHeld = false;
         mousePressPoint = null;
-        mouseReleasePoint = null;
         p = null;
-        mouseClicked = false;
         colaRects = new Rectangle[4][4];
         colaRects[0][0] = new Rectangle(165, 385, 32, 43);
         colaRects[1][0] = new Rectangle(165, 385, 32, 43);
@@ -74,7 +68,6 @@ class ColaDispenser{
         }
         mousePressPoint = point;
         mouseHeld = true;
-        mouseClicked = true;
     }
     
 
@@ -83,7 +76,6 @@ class ColaDispenser{
     }
 
     public void setMouseReleasePoint(Point point){
-        mouseReleasePoint = point;
         mouseHeld = false;
     }
 
