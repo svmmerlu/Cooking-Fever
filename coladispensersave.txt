@@ -1,0 +1,138 @@
+import java.awt.*;
+import javax.swing.*;
+class ColaDispenser{
+    public static final int COLADISPENSER = 0, COLA = 1, EMPTYCOLA = 2;
+    public static final int GRABBED = 0, DISPENSED = 1;
+    private Image [] imgs;
+    private int [] strs;
+    private long timer[];
+    private Rectangle colaRects[][];
+    private Point mousePressPoint, mouseReleasePoint, p;
+    private boolean mouseHeld, mouseClicked;
+    private boolean [][] cola;
+    public ColaDispenser(){
+        timer = new long[]{0, 0, 0};
+        strs = null;
+        imgs = null;
+        mouseHeld = false;
+        mousePressPoint = null;
+        mouseReleasePoint = null;
+        p = null;
+        mouseClicked = false;
+        colaRects = new Rectangle[4][4];
+        colaRects[0][0] = new Rectangle(140, 345, 32, 43);
+        colaRects[1][0] = new Rectangle(140, 345, 32, 43);
+        colaRects[2][0] = new Rectangle(115, 338, 32, 43);
+        colaRects[2][1] = new Rectangle(165, 338, 32, 43);
+        colaRects[3][0] = new Rectangle(100, 342, 32, 43);
+        colaRects[3][1] = new Rectangle(145, 344, 32, 43);
+        colaRects[3][2] = new Rectangle(191, 344, 32, 43);
+
+        cola = new boolean[4][3];
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 2; j++){
+                cola[i][j] = false;
+            }
+        }
+    }
+
+    public void setImgs(int[] stars) {
+        strs = stars;
+        timer = new long[]{0, 0, 0, 0};
+        for(int i = 0; i <= stars[COLADISPENSER]; i++){
+            timer[i] = System.currentTimeMillis();
+        }
+
+        imgs = new Image[]{new ImageIcon("coladispenser" + stars[COLADISPENSER] + ".png").getImage(), 
+                           new ImageIcon("cola" + stars[COLA] + ".png").getImage(),
+                           new ImageIcon("emptycola" + stars[COLA] + ".png").getImage()}; // empty cola
+    }
+
+    public void setMousePressPoint(Point point) {
+        if (point == null) {
+            throw new IllegalArgumentException("Point cannot be null");
+        }
+        mousePressPoint = point;
+        mouseHeld = true;
+        mouseClicked = true;
+    }
+    
+
+    public void setMouse(Point point){
+        p = point;
+    }
+
+    public void setMouseReleasePoint(Point point){
+        mouseReleasePoint = point;
+        mouseHeld = false;
+    }
+
+    public void draw(Graphics g){
+        g.drawImage(imgs[COLADISPENSER], 65, 208, null);
+        
+        for(int i = 0; i <= strs[COLADISPENSER]; i++){
+            long elapsed = System.currentTimeMillis() - timer[i];
+            if(strs[COLADISPENSER] == 0){
+                if(elapsed >= 10000 && !cola[i][DISPENSED] && !cola[i][GRABBED]){
+                    g.drawImage(imgs[EMPTYCOLA], 135, 345, null); 
+                    cola[i][DISPENSED] = true;
+                }
+                else if(!cola[i][GRABBED]){
+                    g.drawImage(imgs[COLA], 135, 345, null); 
+                }
+            }
+            
+            if(strs[COLADISPENSER] == 1){
+                if(elapsed >= 9000 && !cola[i][DISPENSED] && !cola[i][GRABBED]){
+                    g.drawImage(imgs[EMPTYCOLA], 135, 345, null); 
+                    cola[i][DISPENSED] = true;
+                }
+                else if(!cola[i][GRABBED]){
+                    g.drawImage(imgs[COLA], 135, 345, null); 
+                }
+            }
+
+            if(strs[COLADISPENSER] == 2){
+                if(elapsed >= 7000 && !cola[i][DISPENSED] && !cola[i][GRABBED]){
+                    if(i == 0) g.drawImage(imgs[EMPTYCOLA], 110, 338, null);
+                    if(i == 1) g.drawImage(imgs[EMPTYCOLA], 160, 338, null);
+                    cola[i][DISPENSED] = true;
+                }
+                else if(!cola[i][GRABBED]){
+                    if(i == 0) g.drawImage(imgs[COLA], 110, 338, null);
+                    if(i == 1) g.drawImage(imgs[COLA], 160, 338, null);
+                }
+            }
+
+            if(strs[COLADISPENSER] == 3){
+                if(elapsed >= 4000 && !cola[i][DISPENSED] && !cola[i][GRABBED]){
+                    if(i == 0) g.drawImage(imgs[EMPTYCOLA], 95, 342, null);
+                    if(i == 1) g.drawImage(imgs[EMPTYCOLA], 140, 344, null);
+                    if(i == 2) g.drawImage(imgs[EMPTYCOLA], 186, 344, null);
+                    cola[i][DISPENSED] = true;  
+                }
+                else if(!cola[i][GRABBED]){
+                    if(i == 0) g.drawImage(imgs[COLA], 95, 342, null);
+                    if(i == 1) g.drawImage(imgs[COLA], 140, 344, null);
+                    if(i == 2) g.drawImage(imgs[COLA], 186, 344, null);
+                }
+            }
+        }
+        int x = 0;
+        if(strs[COLADISPENSER] == 0 || strs[COLADISPENSER] == 1) x = 1;
+        if(strs[COLADISPENSER] == 2) x = 2;
+        if(strs[COLADISPENSER] == 3) x = 3;
+        for(int i = 0; i < x; i++){
+            if(cola[i][GRABBED]) g.drawImage(imgs[COLA], (int)p.getX()-20, (int)p.getY()-20, null);
+            
+            if(cola[i][DISPENSED] && mouseHeld && colaRects[strs[COLADISPENSER]][i].contains(mousePressPoint)){
+                cola[i][GRABBED] = true;
+            }
+
+            if(cola[i][GRABBED] && !mouseHeld){
+                // customer collide
+                cola[i][GRABBED] = false;
+            }
+        }
+    }
+}

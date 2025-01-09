@@ -1,0 +1,442 @@
+import java.awt.*;
+import javax.swing.*;
+
+class Person{
+    public static final int PURPLEHATWOMAN = 0, GREYHOODIEKID = 1, PONYTAILWOMAN = 2, BLONDEPIXIEWOMAN = 3, EARMUFFMAN = 4;
+    public static final int GREENVESTKID = 5, BLONDEMAN = 6, OLDWOMAN = 7, FLUFFYHATMAN = 8;
+    public static final String[] names = new String[]{"purplehatwoman", "greyhoodiekid", "ponytailwoman", 
+                                                      "blondepixiewoman", "earmuffman", "greenvestkid",
+                                                      "blondeman", "oldwoman", "fluffyhatman"};
+    public static final int[][] frames = new int[][]{{5, 9}};
+    public static final int W = 0, O = 1;
+    Rectangle []rects = new Rectangle[]{new Rectangle(49, 119, 145, 139), 
+                                        new Rectangle(269, 119, 145, 139),
+                                        new Rectangle(489, 119, 145, 139),
+                                        new Rectangle(709, 119, 145, 139)};
+    private Image[] walking, ordering;
+    private int person;
+    public Person(int p){
+        person = p;
+        walking = new Image[frames[person][W]];
+        ordering = new Image[frames[person][O]];
+        for(int i = 0; i < frames[person][W]; i++){
+            String fileName;
+            fileName = names[i] + "W" + i + ".png";
+            walking[i] = new ImageIcon(fileName).getImage();
+        }
+
+        for(int i = 0; i < frames[person][O]; i++){
+            String fileName;
+            fileName = names[i] + "O" + i + ".png";
+            ordering[i] = new ImageIcon(fileName).getImage();
+        }
+    }
+
+    public void draw(Graphics g){
+
+    }
+}
+
+
+import java.awt.*;
+
+import javax.swing.*;
+
+class Hamburger{
+    public static final int BURGERTOP = 0, BURGERBOTTOM = 1, GRABTOMATO = 2, GRABLETTUCE = 3, TOMATO = 4;
+    public static final int LETTUCE = 5, PATTY = 6, COOKEDPATTY = 7, PLATE = 8, PANS = 9;
+    public static final int HASPLATE = 0, HASPATTY = 1, HASLETTUCE = 2, HASTOMATO = 3;
+    public static final int TIME = 0, FALSE = -1, RAW = 1, DONE = 2, STATE = 1, BURNT = 3;
+    public static final Rectangle trashRect = new Rectangle(43, 472, 70, 60);
+    public static final Rectangle plateRect[] = new Rectangle[]{new Rectangle(307, 396, 65, 40), 
+                                                                new Rectangle(322, 341, 65, 40),
+                                                                new Rectangle(330, 295, 65, 40)};
+    public static final Rectangle bunbasket = new Rectangle(300, 470, 80, 55);
+    public static final Rectangle rawpattybasket = new Rectangle(632, 526, 70, 39);
+    public static final Rectangle[] tomatobasket = new Rectangle[]{new Rectangle(522, 425, 57, 68),
+                                                                   new Rectangle(519, 430, 65, 55),
+                                                                   new Rectangle(516, 425, 70, 65),
+                                                                   new Rectangle(516, 425, 70, 65)};
+    public static final Rectangle[] lettucebasket = new Rectangle[]{new Rectangle(505, 355, 57, 55),
+                                                                    new Rectangle(505, 357, 62, 51),
+                                                                    new Rectangle(505, 357, 65, 55),
+                                                                    new Rectangle(505, 355, 63, 58)};
+    private Image[] imgs, burnedpatty;
+    private Image trash;
+    private int[] strs;
+    private int plates;
+    private boolean [][] table;
+    private Point mousePressPoint, mouseReleasePoint, p;
+    private boolean mouseHeld, mouseClicked, lettucegrabbed, tomatograbbed;
+    private boolean [] pattygrabbed;
+    private long[][] patties;
+    private long pause;
+
+    public Hamburger() {
+        pause = 0;
+        imgs = new Image[9];
+        imgs[8] = new ImageIcon("plate.png").getImage();
+        trash = new ImageIcon("trash.png").getImage();
+        burnedpatty = new Image[]{new ImageIcon("burntpatty.png").getImage(),
+                                  new ImageIcon("burntpatty2.png").getImage(),
+                                  new ImageIcon("burntpatty.png").getImage(),
+                                  new ImageIcon("burntpatty.png").getImage()};
+        strs = null;
+        plates = 0;
+        mouseHeld = false;
+        mousePressPoint = null;
+        mouseReleasePoint = null;
+        p = null;
+        mouseClicked = false;
+        pattygrabbed = new boolean[]{false, false, false, false};
+        lettucegrabbed = false;
+        tomatograbbed = false;
+        table = new boolean[3][4];
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 4; j++) table[i][j] = false;
+        }
+
+        patties = new long[4][2];
+        for(int i = 0; i < 4; i++){
+            patties[i][TIME] = FALSE;
+            patties[i][RAW] = RAW;
+        }
+    }
+
+    public void setImgs(int[] stars) {
+        strs = stars;
+        String[] names = { "burgertop", "burgerbottom", "grabtomato", "grablettuce", "burgertomato", "burgerlettuce",
+                "patty", "cookedpatty" };
+
+        for (int i = 0; i <= 7; i++) {
+            String fileName;
+            fileName = names[i] + (stars[i]) + ".png";
+            imgs[i] = new ImageIcon(fileName).getImage();
+            if (imgs[i] == null) {
+                System.err.println("Failed to load: " + fileName);
+            }
+        }
+    }
+
+    private void drawBurger(Graphics g, int x, int y, int tble){
+        if(table[tble][HASPLATE]){
+            g.drawImage(imgs[PLATE], x, y, null);
+            if(!table[tble][HASLETTUCE] && !table[tble][HASTOMATO] && !table[tble][HASPATTY]){
+                if(strs[BURGERTOP] == 0){
+                    g.drawImage(imgs[BURGERTOP], x+37, y+35, null);
+                    g.drawImage(imgs[BURGERBOTTOM], x+37, y+54, null);
+                }
+                if(strs[BURGERTOP] == 1 || strs[BURGERTOP] == 2){
+                    g.drawImage(imgs[BURGERTOP], x+37, y+35, null);
+                    g.drawImage(imgs[BURGERBOTTOM], x+37, y+53, null);
+                }
+                if(strs[BURGERTOP] == 3){
+                    g.drawImage(imgs[BURGERTOP], x+37, y+35, null);
+                    g.drawImage(imgs[BURGERBOTTOM], x+37, y+51, null);
+                }
+            }
+            else if(table[tble][HASPATTY]){
+                if(!table[tble][HASLETTUCE] && !table[tble][HASTOMATO]){
+                    if(strs[BURGERTOP] == 0){
+                        g.drawImage(imgs[COOKEDPATTY], x+37, y+43, null);
+                        g.drawImage(imgs[BURGERTOP], x+37, y+35, null);
+                        g.drawImage(imgs[BURGERBOTTOM], x+37, y+58, null);
+                    }
+                    if(strs[BURGERTOP] == 1){
+                        g.drawImage(imgs[COOKEDPATTY], x+37, y+43, null);
+                        g.drawImage(imgs[BURGERTOP], x+37, y+35, null);
+                        g.drawImage(imgs[BURGERBOTTOM], x+37, y+57, null);
+                    }
+                    if(strs[BURGERTOP] == 2){
+                        g.drawImage(imgs[COOKEDPATTY], x+37, y+43, null);
+                        g.drawImage(imgs[BURGERTOP], x+37, y+35, null);
+                        g.drawImage(imgs[BURGERBOTTOM], x+37, y+58, null);
+                    }
+                    if(strs[BURGERTOP] == 3){
+                        g.drawImage(imgs[COOKEDPATTY], x+37, y+41, null);
+                        g.drawImage(imgs[BURGERTOP], x+37, y+35, null);
+                        g.drawImage(imgs[BURGERBOTTOM], x+37, y+56, null);
+                    }
+                }
+
+                else if(table[tble][HASLETTUCE] && !table[tble][HASTOMATO]){
+                    if(strs[BURGERTOP] == 0 || strs[BURGERTOP] == 2){
+                        g.drawImage(imgs[COOKEDPATTY], x+37, y+43, null);
+                        g.drawImage(imgs[LETTUCE], x+32, y+45, null);
+                        g.drawImage(imgs[BURGERTOP], x+37, y+31, null);
+                        g.drawImage(imgs[BURGERBOTTOM], x+37, y+58, null);
+                    }
+                    if(strs[BURGERTOP] == 1){
+                        g.drawImage(imgs[COOKEDPATTY], x+37, y+43, null);
+                        g.drawImage(imgs[LETTUCE], x+33, y+42, null);
+                        g.drawImage(imgs[BURGERTOP], x+37, y+28, null);
+                        g.drawImage(imgs[BURGERBOTTOM], x+37, y+57, null);
+                    }
+                    if(strs[BURGERTOP] == 3){
+                        g.drawImage(imgs[COOKEDPATTY], x+37, y+40, null);
+                        g.drawImage(imgs[LETTUCE], x+33, y+35, null);
+                        g.drawImage(imgs[BURGERTOP], x+37, y+31, null);
+                        g.drawImage(imgs[BURGERBOTTOM], x+37, y+56, null);
+                    }
+                }
+            }
+
+            if(!table[tble][HASTOMATO] && table[tble][HASLETTUCE] && !table[tble][HASPATTY]){
+                if(strs[BURGERTOP] == 0 || strs[BURGERTOP] == 2){
+                    g.drawImage(imgs[BURGERBOTTOM], x+37, y+58, null);
+                    g.drawImage(imgs[LETTUCE], x+32, y+53, null);
+                    g.drawImage(imgs[BURGERTOP], x+37, y+37, null);
+                }
+                if(strs[BURGERTOP] == 1){
+                    g.drawImage(imgs[BURGERBOTTOM], x+37, y+58, null);
+                    g.drawImage(imgs[LETTUCE], x+35, y+51, null);
+                    g.drawImage(imgs[BURGERTOP], x+37, y+37, null);
+                }
+                if(strs[BURGERTOP] == 3){
+                    g.drawImage(imgs[BURGERBOTTOM], x+37, y+58, null);
+                    g.drawImage(imgs[LETTUCE], x+33, y+43, null);
+                    g.drawImage(imgs[BURGERTOP], x+37, y+36, null);
+                }
+            }
+        }
+    }
+
+
+    public void drawBurger(Graphics g, int x, int y, boolean tomato, boolean lettuce){
+        if(!tomato && !lettuce){
+            if(strs[BURGERTOP] == 0){
+                g.drawImage(imgs[COOKEDPATTY], x+37, y+43, null);
+                g.drawImage(imgs[BURGERTOP], x+37, y+35, null);
+                g.drawImage(imgs[BURGERBOTTOM], x+37, y+58, null);
+            }
+            if(strs[BURGERTOP] == 1){
+                g.drawImage(imgs[COOKEDPATTY], x+37, y+43, null);
+                g.drawImage(imgs[BURGERTOP], x+37, y+35, null);
+                g.drawImage(imgs[BURGERBOTTOM], x+37, y+57, null);
+            }
+            if(strs[BURGERTOP] == 2){
+                g.drawImage(imgs[COOKEDPATTY], x+37, y+43, null);
+                g.drawImage(imgs[BURGERTOP], x+37, y+35, null);
+                g.drawImage(imgs[BURGERBOTTOM], x+37, y+58, null);
+            }
+            if(strs[BURGERTOP] == 3){
+                g.drawImage(imgs[COOKEDPATTY], x+37, y+41, null);
+                g.drawImage(imgs[BURGERTOP], x+37, y+35, null);
+                g.drawImage(imgs[BURGERBOTTOM], x+37, y+56, null);
+            }
+        }
+
+        else if(lettuce && !tomato){
+            if(strs[BURGERTOP] == 0 || strs[BURGERTOP] == 2){
+                g.drawImage(imgs[COOKEDPATTY], x+37, y+43, null);
+                g.drawImage(imgs[LETTUCE], x+32, y+45, null);
+                g.drawImage(imgs[BURGERTOP], x+37, y+31, null);
+                g.drawImage(imgs[BURGERBOTTOM], x+37, y+58, null);
+            }
+            if(strs[BURGERTOP] == 1){
+                g.drawImage(imgs[COOKEDPATTY], x+37, y+43, null);
+                g.drawImage(imgs[LETTUCE], x+33, y+42, null);
+                g.drawImage(imgs[BURGERTOP], x+37, y+28, null);
+                g.drawImage(imgs[BURGERBOTTOM], x+37, y+57, null);
+            }
+            if(strs[BURGERTOP] == 3){
+                g.drawImage(imgs[COOKEDPATTY], x+37, y+40, null);
+                g.drawImage(imgs[LETTUCE], x+33, y+35, null);
+                g.drawImage(imgs[BURGERTOP], x+37, y+31, null);
+                g.drawImage(imgs[BURGERBOTTOM], x+37, y+56, null);
+            }
+        }
+
+        else if(!lettuce && tomato){
+            if(strs[BURGERTOP] == 0 || strs[BURGERTOP] == 2){
+                g.drawImage(imgs[COOKEDPATTY], x+37, y+43, null);
+                g.drawImage(imgs[TOMATO], x+35, y+46, null);
+                g.drawImage(imgs[BURGERTOP], x+37, y+30, null);
+                g.drawImage(imgs[BURGERBOTTOM], x+37, y+58, null);
+            }
+            if(strs[BURGERTOP] == 1){
+                g.drawImage(imgs[COOKEDPATTY], x+37, y+43, null);
+                g.drawImage(imgs[TOMATO], x+35, y+43, null);
+                g.drawImage(imgs[BURGERTOP], x+37, y+29, null);
+                g.drawImage(imgs[BURGERBOTTOM], x+37, y+57, null);
+            }
+            if(strs[BURGERTOP] == 3){
+                g.drawImage(imgs[COOKEDPATTY], x+37, y+43, null);
+                g.drawImage(imgs[TOMATO], x+35, y+45, null);
+                g.drawImage(imgs[BURGERTOP], x+37, y+31, null);
+                g.drawImage(imgs[BURGERBOTTOM], x+37, y+57, null);
+            }
+        }
+
+        else{
+            if(strs[BURGERTOP] == 0 || strs[BURGERTOP] == 2){
+                g.drawImage(imgs[COOKEDPATTY], x+37, y+43, null);
+                g.drawImage(imgs[LETTUCE], x+32, y+45, null);
+                g.drawImage(imgs[TOMATO], x+35, y+42, null);
+                g.drawImage(imgs[BURGERTOP], x+37, y+26, null);
+                g.drawImage(imgs[BURGERBOTTOM], x+37, y+58, null);
+            }
+            if(strs[BURGERTOP] == 1){
+                g.drawImage(imgs[COOKEDPATTY], x+37, y+43, null);
+                g.drawImage(imgs[LETTUCE], x+33, y+42, null);
+                g.drawImage(imgs[TOMATO], x+35, y+39, null);
+                g.drawImage(imgs[BURGERTOP], x+37, y+25, null);
+                g.drawImage(imgs[BURGERBOTTOM], x+37, y+57, null);
+            }
+            if(strs[BURGERTOP] == 3){
+                g.drawImage(imgs[COOKEDPATTY], x+37, y+43, null);
+                g.drawImage(imgs[LETTUCE], x+33, y+39, null);
+                g.drawImage(imgs[TOMATO], x+35, y+41, null);
+                g.drawImage(imgs[BURGERTOP], x+37, y+27, null);
+                g.drawImage(imgs[BURGERBOTTOM], x+37, y+57, null);
+            }
+        }
+    }
+
+    private void checkPatty(Rectangle sausageRect, int pan, Graphics g){
+        if(patties[pan][STATE] != RAW && mouseHeld && sausageRect.contains(mousePressPoint)){
+            pattygrabbed[pan] = true;
+            pause = System.currentTimeMillis();
+        }
+        if(pattygrabbed[pan] && patties[pan][STATE] == DONE) g.drawImage(imgs[COOKEDPATTY], (int) p.getX() - 20, (int) p.getY() - 14, null);
+        if(pattygrabbed[pan] && patties[pan][STATE] == BURNT) g.drawImage(burnedpatty[strs[PATTY]], (int) p.getX() - 20, (int) p.getY() - 14, null);
+        if(!mouseHeld && pattygrabbed[pan] && patties[pan][STATE] == DONE){
+            int plateNum = getPlate(mouseReleasePoint);
+            if(plateNum != -1 && !table[plateNum][HASPATTY]){
+                patties[pan][TIME] = FALSE;
+                table[plateNum][HASPATTY] = true;
+                patties[pan][STATE] = RAW;
+            }else{
+                long elapsed = System.currentTimeMillis() - pause;
+                patties[pan][TIME] -= elapsed;
+                patties[pan][STATE] = DONE;
+            }
+            pattygrabbed[pan] = false;
+        }
+        if(patties[pan][STATE] == BURNT && pattygrabbed[pan] && trashRect.contains(p)) g.drawImage(trash, 0, 0, null);
+        if(!mouseHeld && pattygrabbed[pan] && patties[pan][STATE] == BURNT){
+            if(trashRect.contains(p)){
+                patties[pan][TIME] = FALSE;
+                patties[pan][STATE] = RAW;
+                
+            }else{
+                long elapsed = System.currentTimeMillis() - pause;
+                patties[pan][TIME] -= elapsed;
+                patties[pan][STATE] = BURNT;
+            }
+            pattygrabbed[pan] = false;
+        }
+    }
+
+    public void draw(Graphics g) {
+        g.setColor(Color.RED);
+
+        // Draw the mouse press point if it exists
+        if (mousePressPoint != null && mouseHeld) {
+            g.setColor(Color.BLUE);
+            g.fillOval(mousePressPoint.x - 5, mousePressPoint.y - 5, 10, 10); // Small circle around the point
+        }
+
+        if(plates < strs[PLATE] && mousePressPoint != null && bunbasket.contains(mousePressPoint) && mouseClicked){
+            table[plates][HASPLATE] = true;
+            plates++;
+            mouseClicked = false;
+        }
+
+        if(mousePressPoint != null && rawpattybasket.contains(mousePressPoint) && mouseClicked){
+            for(int i = 0; i <= strs[PANS]; i++){
+                if(patties[i][TIME] == FALSE){
+                    patties[i][TIME] = System.currentTimeMillis();
+                    break;
+                }
+            }
+            mouseClicked = false;
+        }
+
+        drawBurger(g, 282, 355, 0);
+        drawBurger(g, 296, 301, 1);
+        drawBurger(g, 305, 255, 2);
+
+        if(strs[PANS] == 0){
+            Rectangle pattyRect = new Rectangle(628, 450, 40, 28);
+            checkPatty(pattyRect, 0, g);
+            drawCooking(g, 628, 450, 0);
+        }
+
+        if(strs[PANS] == 1){
+            Rectangle pattyRect [] = new Rectangle[]{new Rectangle(628, 449, 40, 28),
+                                                     new Rectangle(608, 399, 40, 28)};
+            for(int i = 0; i < 2; i++){
+                checkPatty(pattyRect[i], i, g);
+            }
+            drawCooking(g, 628, 449, 0);
+            drawCooking(g, 608, 399, 1);
+        }
+
+        if(strs[PANS] == 2){
+            Rectangle pattyRect [] = new Rectangle[]{new Rectangle(628, 449, 40, 28),
+                                                     new Rectangle(608, 399, 40, 28),
+                                                     new Rectangle(588, 344,40, 28)};
+            for(int i = 0; i < 3; i++){
+                checkPatty(pattyRect[i], i, g);
+            }
+            
+            drawCooking(g, 628, 449, 0);
+            drawCooking(g, 608, 399, 1);
+            drawCooking(g, 588, 344, 2);
+        }
+
+        if(strs[PANS] == 3){
+            Rectangle pattyRect [] = new Rectangle[]{new Rectangle(635, 457, 40, 28),
+                                                     new Rectangle(613, 404, 40, 28),
+                                                     new Rectangle(593, 358,40, 28),
+                                                     new Rectangle(573, 307,40, 28)};
+            for(int i = 0; i < 4; i++){
+                checkPatty(pattyRect[i], i, g);
+            }
+            drawCooking(g, 635, 457, 0);
+            drawCooking(g, 613, 404, 1);
+            drawCooking(g, 593, 358, 2);
+            drawCooking(g, 573, 307, 3);
+        }
+
+        if(strs[LETTUCE] != -1){
+            if(mouseHeld && lettucebasket[strs[LETTUCE]].contains(mousePressPoint)){
+                lettucegrabbed = true;
+                g.drawImage(imgs[GRABLETTUCE], (int) p.getX() - 20, (int) p.getY() - 15, null);
+            }
+
+            if(lettucegrabbed && !mouseHeld){
+                int plateNum = getPlate(mouseReleasePoint);
+                if(plateNum != -1){
+                    table[plateNum][HASLETTUCE] = true;
+                }
+                lettucegrabbed = false;
+            }
+        }
+
+        if(strs[TOMATO] != -1){
+            if(mouseHeld && tomatobasket[strs[TOMATO]].contains(mousePressPoint)){
+                tomatograbbed = true;
+                g.drawImage(imgs[GRABTOMATO], (int) p.getX() - 20, (int) p.getY() - 15, null);
+            }
+
+            if(tomatograbbed && !mouseHeld){
+                int plateNum = getPlate(mouseReleasePoint);
+                if(plateNum != -1){
+                    table[plateNum][HASTOMATO] = true;
+                }
+                tomatograbbed = false;
+            }
+        }
+    }
+}
+
+
+ntDispatchThread.java:109)
+        at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+        at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+Exception in thread "AWT-EventQueue-0" java.lang.NullPointerException: Cannot load from int array because "this.strs" is null
+        at Hamburger.drawBurger(Hamburger.java:271)
+
+fix
