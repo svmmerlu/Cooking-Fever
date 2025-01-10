@@ -18,7 +18,9 @@ class Hotdog{
     private Image[] imgs, burnedsausage;
     private Image trash;
     private int[] strs; 
+    private int [][] costs; // the costs of each component of hotdogs
     private int plates;
+    private int loses; // how much money lost from burnt sausages
     private boolean [][] table;
     private Point mousePressPoint, mouseReleasePoint, p;
     private boolean mouseHeld, mouseClicked, ketchupgrabbed;
@@ -27,6 +29,7 @@ class Hotdog{
     private long pause;
 
     public Hotdog() {
+        loses = 0;
         pause = 0;
         trash = new ImageIcon("trash.png").getImage();
         imgs = new Image[9];
@@ -55,7 +58,33 @@ class Hotdog{
             sausages[i][TIME] = FALSE;
             sausages[i][STATE] = RAW;
         }
+
+        costs = new int[20][20];
+        costs[KETCHUPSQUIRT][0] = 2;
+        costs[KETCHUPSQUIRT][1] = 3;
+        costs[KETCHUPSQUIRT][2] = 4;
+        costs[KETCHUPSQUIRT][3] = 5;
+        
+        costs[BUN][0] = 5;
+        costs[BUN][1] = 6;
+        costs[BUN][2] = 7;
+        costs[BUN][3] = 8;
+        
+        costs[SAUSAGE][0] = 10;
+        costs[SAUSAGE][1] = 11;
+        costs[SAUSAGE][2] = 12;
+        costs[SAUSAGE][3] = 13;
     }
+
+    public int getCost(boolean k){
+        int cost = 0;
+        if(k) cost += costs[KETCHUPSQUIRT][strs[KETCHUPBOTTLE]];
+        cost += costs[SAUSAGE][strs[SAUSAGE]];
+        cost += costs[BUN][strs[BUN]];
+        return cost;
+    }
+    
+    public int getLoses(){return loses;}
 
     public void setMousePressPoint(Point point) {
         if (point == null) {
@@ -129,6 +158,7 @@ class Hotdog{
                 g.drawImage(imgs[PANCOOKEDSAUSAGE], x, y, null);
                 if(elapsed >= 7000){
                     sausages[pan][STATE] = BURNT;
+                    loses -= costs[SAUSAGE][strs[SAUSAGE]];
                 }
             }
             else{

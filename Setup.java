@@ -206,6 +206,8 @@ public class Setup {
 
     // Draw method to render the images
     public void draw(Graphics g) {
+        money += hamburger.getLoses();
+        money += hotdog.getLoses();
         g.drawImage(bg, 0, 0, null);
         if(item[level][TOMATOES]) g.drawImage(imgs[TOMATOES], 513, 420, null); // tomato basket
         if(item[level][LETTUCE]) g.drawImage(imgs[LETTUCE], 503, 350, null);  // lettuce basket

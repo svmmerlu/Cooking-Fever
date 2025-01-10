@@ -25,6 +25,8 @@ class Hamburger{
     private Image[] imgs, burnedpatty; 
     private Image trash;
     private int[] strs;
+    private int loses; // how much money lost from burnt patties
+    private int [][]costs = new int[20][20];
     private int plates, grabbedtype, grabbedPlate, skip;
     private boolean [][] table;
     private Point mousePressPoint, mouseReleasePoint, p;
@@ -35,6 +37,7 @@ class Hamburger{
     private Rectangle grabbed;
 
     public Hamburger() {
+        loses = 0;
         skip = 0;
         served = false;
         grabbedPlate = -1;
@@ -68,10 +71,8 @@ class Hamburger{
             patties[i][TIME] = FALSE;
             patties[i][RAW] = RAW;
         }
-    }
 
-    public int getCost(boolean t, boolean l){
-        int [][]costs = new int[20][20];
+        
         costs[LETTUCE][0] = 2;
         costs[LETTUCE][1] = 3;
         costs[LETTUCE][2] = 4;
@@ -91,6 +92,9 @@ class Hamburger{
         costs[PATTY][1] = 11;
         costs[PATTY][2] = 12;
         costs[PATTY][3] = 13;
+    }
+
+    public int getCost(boolean t, boolean l){
         int cost = 0;
         if(l) cost += costs[LETTUCE][strs[LETTUCE]];
         if(t) cost += costs[TOMATO][strs[TOMATO]];
@@ -99,6 +103,7 @@ class Hamburger{
         return cost;
     }
 
+    public int getLoses(){return loses;} // used in Setup
 
     public void removeBurger(){
         served = true;
@@ -435,6 +440,7 @@ class Hamburger{
                 g.drawImage(imgs[COOKEDPATTY], x, y, null);
                 if(elapsed >= 7000){
                     patties[pan][STATE] = BURNT;
+                    loses -= costs[PATTY][strs[PATTY]];
                 }
             }
             else{
