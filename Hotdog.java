@@ -132,10 +132,10 @@ class Hotdog{
         }
     }
     
-    private void drawHotdog(Graphics g, int x, int y, boolean hasketchup){
-        g.drawImage(imgs[BUN], x+28, y+35, null);
-        g.drawImage(imgs[COOKEDSAUSAGE], x+28, y+35, null);
-        if(hasketchup) g.drawImage(imgs[KETCHUPSQUIRT], x+28, y+35, null);
+    public void drawHotdog(Graphics g, int x, int y, boolean hasketchup){
+        g.drawImage(imgs[BUN], x, y, null);
+        g.drawImage(imgs[COOKEDSAUSAGE], x, y, null);
+        if(hasketchup) g.drawImage(imgs[KETCHUPSQUIRT], x, y, null);
     }
 
     private void drawCooking(Graphics g, int x, int y, int pan){
