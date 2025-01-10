@@ -6,12 +6,14 @@ class ColaDispenser{
     private Image [] imgs;
     private int [] strs;
     private Rectangle grabbed;
+    private int grabbedtype; // type grabbed
     private long timer[];
     private Rectangle colaRects[][];
     private Point mousePressPoint, p;
     private boolean mouseHeld, served;
     private boolean [][] cola;
     public ColaDispenser(){
+        grabbedtype = 1; // cola has no toppings
         served = false;
         grabbed = null;
         timer = new long[]{0, 0, 0};
@@ -36,6 +38,8 @@ class ColaDispenser{
             }
         }
     }
+
+    public int getGrabbedType(){return grabbedtype;}
 
     public void setImgs(int[] stars) {
         strs = stars;
@@ -79,7 +83,10 @@ class ColaDispenser{
         mouseHeld = false;
     }
 
-    public void drawCola(Graphics g, int x, int y){g.drawImage(imgs[COLA], x, y, null);}
+    public void drawCola(Graphics g, int x, int y){
+        g.drawImage(imgs[COLA], (int)x-20, (int)y-20, null);
+        System.out.println("DRAWN");
+    }
 
     public void draw(Graphics g){
         g.drawImage(imgs[COLADISPENSER], 90, 248, null);
@@ -138,7 +145,7 @@ class ColaDispenser{
         if(strs[COLADISPENSER] == 2) x = 2;
         if(strs[COLADISPENSER] == 3) x = 3;
         for(int i = 0; i < x; i++){
-            if(cola[i][GRABBED]) g.drawImage(imgs[COLA], (int)p.getX()-20, (int)p.getY()-20, null);
+            //if(cola[i][GRABBED]) g.drawImage(imgs[COLA], (int)p.getX()-20, (int)p.getY()-20, null);
             
             if(cola[i][DISPENSED] && mouseHeld && colaRects[strs[COLADISPENSER]][i].contains(mousePressPoint)){
                 cola[i][GRABBED] = true;

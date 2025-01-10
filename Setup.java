@@ -114,7 +114,7 @@ public class Setup {
     } // gets type of item grabbed
     public int getGrabbedType(){
         if(hamburger.getGrabbedType() != -1) return hamburger.getGrabbedType();
-        // cola & fries doesn't need it bc there's no toppings
+        if(coladispenser.getGrabbedType() != -1) return coladispenser.getGrabbedType();
         else return -1;
     }
 
