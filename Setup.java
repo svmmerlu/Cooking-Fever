@@ -27,6 +27,7 @@ public class Setup {
     private Point p; // mouse point
     private Boolean [][]item; // whether item[LEVEL][x] exists in this level
     private Boolean mouseReleased;
+    private Boolean itemupgraded; // to tell level classes to update images since an item was upgraded
     private int level; // the lvl we are setting up
     // goal: amount of money that will earn player 3 stars
     // money: money player has earned rn
@@ -39,10 +40,11 @@ public class Setup {
 
     private Setup() {
         // initialize variables
+        itemupgraded = false;
         starimgs = new Image[]{new ImageIcon("1star.png").getImage(),
                                new ImageIcon("2star.png").getImage(),
                                new ImageIcon("3star.png").getImage()};
-        mouseReleased = false;
+        mouseReleased = false; // used in levels to see where mouse was released (when/if to hand off items)
         starttime = -1;
         goal = -1;
         money = 0;
@@ -81,52 +83,59 @@ public class Setup {
         return instance;
     }
 
-    //
-    public boolean getMouseReleased(){return mouseReleased;}
-
+    // used in level classes to set the level Setup is being used for
     public void setLevel(int lvl){
         level = lvl - 1;
         setImgs(strs);
     }
 
+    // used in level classes to get how many stars x item has 
     public int[] getBurgerStars(){
+        itemupgraded = false; // bc new stars r set
         return new int[]{strs[BURGERBUNS], strs[BURGERBUNS], strs[TOMATOES], strs[LETTUCE], strs[TOMATOES], strs[LETTUCE], strs[PATTIES], strs[PATTIES]};
     }
 
     public int[] getColaStars(){
+        itemupgraded = false;
         return new int[]{strs[DISPENSER], strs[COLA], strs[COLA]};
     }
 
+    public boolean getItemUpgraded(){return itemupgraded;};
+
+    // used in level classes to set the goal
     public void setGoal(int g){goal = g;}
 
+    // gets rectangle of item grabbed 
+    // used in level classes
     public Rectangle getGrabbedRect(){
         if(hamburger.getGrabbedRect()!=null) return hamburger.getGrabbedRect();
         if(coladispenser.getGrabbedRect()!=null) return coladispenser.getGrabbedRect();
         else return null;
-    }
+    } // gets type of item grabbed
     public int getGrabbedType(){
         if(hamburger.getGrabbedType() != -1) return hamburger.getGrabbedType();
+        // cola & fries doesn't need it bc there's no toppings
         else return -1;
     }
-    public void removeBurger(){
-        System.out.println("SETUP REMOVE BURGER");
-        hamburger.removeBurger();
-    }
 
-    public void removeCola(){
-        coladispenser.removeCola();
-    }
+    // the grabbed item was handed to a customer and it was the customers order meaning it should no longer exist
+    public void removeBurger(){hamburger.removeBurger();}
+    public void removeCola(){coladispenser.removeCola();}
 
+
+
+    // used in Upgrades, reloads imgs and updates stars whenever an item is upgraded
     public void setImgs(int[] stars) {
-        stars[BURGERPAN] = 3;
+        itemupgraded = true;
+        stars[BURGERPAN] = 3; // DELETE LTR
+
+        // reset stars in other classes
         if(!item[level][KETCHUP]) hotdog.setImgs(new int [] {stars[HOTDOGBUNS], stars[SAUSAGES], stars[SAUSAGES], stars[SAUSAGES], -1, -1, -1, stars[HOTDOGTABLE], stars[HOTDOGPAN]});
         else hotdog.setImgs(new int [] {stars[HOTDOGBUNS], stars[SAUSAGES], stars[SAUSAGES], stars[SAUSAGES], stars[KETCHUP], stars[KETCHUP], stars[KETCHUP], stars[HOTDOGTABLE], stars[HOTDOGPAN]});
-
         if(!item[level][TOMATOES] && !item[level][LETTUCE]) hamburger.setImgs(new int [] {stars[BURGERBUNS], stars[BURGERBUNS], -1, -1, -1, -1, stars[PATTIES], stars[PATTIES], stars[BURGERTABLE], stars[BURGERPAN]});
         else if(!item[level][TOMATOES] && item[level][LETTUCE]) hamburger.setImgs(new int [] {stars[BURGERBUNS], stars[BURGERBUNS], -1, stars[LETTUCE], -1, stars[LETTUCE], stars[PATTIES], stars[PATTIES], stars[BURGERTABLE], stars[BURGERPAN]});
         else if(item[level][TOMATOES] && !item[level][LETTUCE]) hamburger.setImgs(new int [] {stars[BURGERBUNS], stars[BURGERBUNS], stars[TOMATOES], -1, stars[TOMATOES], -1, stars[PATTIES], stars[PATTIES], stars[BURGERTABLE], stars[BURGERPAN]});
         else hamburger.setImgs(new int [] {stars[BURGERBUNS], stars[BURGERBUNS], stars[TOMATOES], stars[LETTUCE], stars[TOMATOES], stars[LETTUCE], stars[PATTIES], stars[PATTIES], stars[BURGERTABLE], stars[BURGERPAN]});
-        
         coladispenser.setImgs(new int [] {stars[DISPENSER], stars[COLA]});
 
         strs = stars;
@@ -136,8 +145,8 @@ public class Setup {
 
         for (int i = 0; i <= 15; i++) {
             String fileName;
-            if(i == HOTDOGTABLE && !item[level][HOTDOGTABLE]) fileName = "hotdogtablesetup0.png";
-            else if(i == HOTDOGTABLE || i == BURGERTABLE) fileName = names[i] + "setup" + (stars[i]) + ".png";
+            if(i == HOTDOGTABLE && !item[level][HOTDOGTABLE]) fileName = "hotdogtablesetup0.png"; // if this isn't unlocked yet, load the locked version
+            else if(i == HOTDOGTABLE || i == BURGERTABLE) fileName = names[i] + "setup" + (stars[i]) + ".png"; // stars start at 1 not 0
             else fileName = names[i] + "setup" + (stars[i]+1) + ".png";
             imgs[i] = new ImageIcon(fileName).getImage();
             if (imgs[i] == null) {
@@ -145,14 +154,6 @@ public class Setup {
             }
         }
 
-    }
-
-    // Getters and setters for images and other variables
-    public Image getImage(int index) {
-        if (index < 0 || index >= imgs.length) {
-            throw new IllegalArgumentException("Invalid image index: " + index);
-        }
-        return imgs[index];
     }
 
     public void setBg(String bgFileName) {this.bg = new ImageIcon(bgFileName).getImage();}
@@ -167,6 +168,10 @@ public class Setup {
             coladispenser.setMouse(p);
         }
     }
+
+    
+    // 
+    public boolean getMouseReleased(){return mouseReleased;}
     public Point getMouse(){return p;}
 
     public void setMousePressPoint(Point point){
