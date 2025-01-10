@@ -130,11 +130,6 @@ class Hamburger{
     }
 
     public void setImgs(int[] stars) {
-        System.out.print("HAMBURGER");
-        for(int star : stars){
-            System.out.print(star + " ");
-        }
-        System.out.println();
         strs = stars;
         String[] names = { "burgertop", "burgerbottom", "grabtomato", "grablettuce", "burgertomato", "burgerlettuce",
                 "patty", "cookedpatty" };
@@ -500,7 +495,6 @@ class Hamburger{
             table[plates][HASPLATE] = true;
             plates++;
             mouseClicked = false;
-            System.out.println("PLATE ADDED");
         }
 
         if(mousePressPoint != null && rawpattybasket.contains(mousePressPoint) && mouseClicked){
