@@ -110,6 +110,6 @@ class Person{
                 state = WALKINGAWAY;
             }
         }
-        g.drawImage(walking[0], 400, 122, null);
+
     }
 }

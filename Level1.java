@@ -46,18 +46,18 @@ class Level1{
     }
     
     public void draw(Graphics g){
-        long elapsed = System.currentTimeMillis() - starttime;
-        if(elapsed <= 5000){
-            //System.out.println("MOVE");
-        }
-        people[0].moveTo(3);
-        people[0].draw(g);
         p = setup.getMouse();
         if(grabbed == null){
             grabbed = setup.getGrabbedRect();
             grabbedtype = setup.getGrabbedType();
         }
         setup.draw(g);
+        long elapsed = System.currentTimeMillis() - starttime;
+        if(elapsed <= 5000){
+            //System.out.println("MOVE");
+        }
+        people[0].moveTo(3);
+        people[0].draw(g);
         //g.drawRect(people[0].getRect().x, people[0].getRect().y, people[0].getRect().width, people[0].getRect().height);
         //if(grabbed!=null) g.drawRect(grabbed.x, grabbed.y, grabbed.width, grabbed.height);
         for(int i = 0; i <= 0; i++){ // < n
@@ -109,5 +109,6 @@ class Level1{
         if(setup.getMouseReleased()){
             grabbed = null;
         }
+        
     }
 }
