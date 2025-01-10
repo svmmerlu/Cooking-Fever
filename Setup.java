@@ -1,13 +1,19 @@
+/*
+ * Helper class for creating levels. Draws all items and has them ready to use since the basic setup for all 
+ * levels is the same, just the people and what the order change.
+ */
 import java.awt.*;
 import javax.swing.*;
 
 public class Setup {
-    // Constants for item indices
+    // constants for item indices
     public static final int FRIES = 0, FRYER = 1, TOMATOES = 2, LETTUCE = 3, KETCHUP = 4, WARMER = 5, SAUSAGES = 6;
     public static final int HOTDOGBUNS = 7, HOTDOGTABLE = 8, HOTDOGPAN = 9, BURGERTABLE = 10, BURGERBUNS = 11, DISPENSER = 12;
     public static final int COLA = 13, BURGERPAN = 14, PATTIES = 15;
-    public static final Rectangle menuRect = new Rectangle(11, 12, 119, 29);
-    public static final Rectangle timeRect = new Rectangle(214, 15, 140, 22);
+    public static final Rectangle menuRect = new Rectangle(11, 12, 119, 29); // menu btnd
+    public static final Rectangle timeRect = new Rectangle(214, 15, 140, 22); // rectangle that fills as time passes
+
+    // once starRect[0] is filled as the player earns more money, the first star is earned and so on
     public static final Rectangle[] starRect = new Rectangle[]{new Rectangle(414, 15, 100, 24),
                                                                new Rectangle(414, 15, 120, 24),
                                                                new Rectangle(414, 15, 140, 24)};
@@ -17,17 +23,22 @@ public class Setup {
     private Image bg, playtopbar, playtopbartop;
     private Image menuhover;
     private Image[] imgs, starimgs;
-    private int[] strs;
-    private Point p;
-    private Boolean [][]item;
+    private int[] strs; // strs[x] = # of stars item x has
+    private Point p; // mouse point
+    private Boolean [][]item; // whether item[LEVEL][x] exists in this level
     private Boolean mouseReleased;
-    private int level, goal, money, starachieved;
-    private long starttime;
+    private int level; // the lvl we are setting up
+    // goal: amount of money that will earn player 3 stars
+    // money: money player has earned rn
+    // starachieved: star player has achieved
+    private int goal, money, starachieved;
+    private long starttime; // when the level starts
     private Hamburger hamburger;
     private Hotdog hotdog;
     private ColaDispenser coladispenser;
 
     private Setup() {
+        // initialize variables
         starimgs = new Image[]{new ImageIcon("1star.png").getImage(),
                                new ImageIcon("2star.png").getImage(),
                                new ImageIcon("3star.png").getImage()};
@@ -56,19 +67,21 @@ public class Setup {
                                {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true}};
     }
 
-    public void setStarttime(){
-        starttime = System.currentTimeMillis();
-    }
+    // startime is set in Panel once a level has been clicked
+    public void setStarttime(){ starttime = System.currentTimeMillis();}
 
+    // used in level classes to add money to setup whenever money is earned
     public void addMoney(int m){ money += m;}
 
-    // Method to get the single instance of Setup
+    // method to get the single instance of Setup
     public static Setup getInstance() {
         if (instance == null) {
             instance = new Setup();
         }
         return instance;
     }
+
+    //
     public boolean getMouseReleased(){return mouseReleased;}
 
     public void setLevel(int lvl){

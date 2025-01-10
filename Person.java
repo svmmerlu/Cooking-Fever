@@ -1,3 +1,6 @@
+/*
+ * Manages the people, how long they wait, their orders, and animating their walking
+ */
 import java.awt.*;
 import javax.swing.*;
 
