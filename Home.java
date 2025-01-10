@@ -18,7 +18,7 @@ class Home {
             p = mousePoint;
         }
     }
-
+ 
     public boolean playHover(){ return (playRECT.contains(p));}
     public boolean upgradesHover(){ return (upgradesRECT.contains(p));}
 

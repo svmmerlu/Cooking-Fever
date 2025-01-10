@@ -17,7 +17,7 @@ class Item{
     private Boolean clicked, upgraded;
 
 
-
+ 
     public Item(Image [] mgs, int strs, int typ, Rectangle c){
         upgraded = false;
         imgs = mgs;

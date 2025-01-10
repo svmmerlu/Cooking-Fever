@@ -143,38 +143,32 @@ public class Setup {
                           "hotdogtable", "hotdogpans", "burgertable", "burgerbuns", "cokemachine", "coke", 
                           "burgerpan", "patties"};
 
+        // load all imgs, indices 0-15
         for (int i = 0; i <= 15; i++) {
             String fileName;
             if(i == HOTDOGTABLE && !item[level][HOTDOGTABLE]) fileName = "hotdogtablesetup0.png"; // if this isn't unlocked yet, load the locked version
             else if(i == HOTDOGTABLE || i == BURGERTABLE) fileName = names[i] + "setup" + (stars[i]) + ".png"; // stars start at 1 not 0
             else fileName = names[i] + "setup" + (stars[i]+1) + ".png";
             imgs[i] = new ImageIcon(fileName).getImage();
-            if (imgs[i] == null) {
-                System.err.println("Failed to load: " + fileName);
-            }
         }
 
     }
-
-    public void setBg(String bgFileName) {this.bg = new ImageIcon(bgFileName).getImage();}
-
-    public Image getBg() {return bg;}
-
+ 
+    // used in Panel to set where the cursor is
     public void setMouse(Point mousePoint) {
         if (mousePoint != null) {
             p = mousePoint;
+            // set to all other classes
             hamburger.setMouse(p);
             hotdog.setMouse(p);
             coladispenser.setMouse(p);
         }
     }
 
-    
-    // 
     public boolean getMouseReleased(){return mouseReleased;}
-    public Point getMouse(){return p;}
+    public Point getMouse(){return p;} // used in level classes to get where the cursor is
 
-    public void setMousePressPoint(Point point){
+    public void setMousePressPoint(Point point){ // point where mouse was pressed
         if(point != null) {
             hamburger.setMousePressPoint(point);
             hotdog.setMousePressPoint(point);
@@ -183,7 +177,7 @@ public class Setup {
         }
     }
 
-    public void setMouseReleasePoint(Point point){
+    public void setMouseReleasePoint(Point point){ // point where mouse was released
         if(point != null) {
             hamburger.setMouseReleasePoint(point);
             hotdog.setMouseReleasePoint(point);
@@ -192,15 +186,17 @@ public class Setup {
         }
     }
 
-    public Boolean menuHover(){return menuRect.contains(p);}
+    public Boolean menuHover(){return menuRect.contains(p);} // used in Panel to switch screens
 
-    public void fillRectangle(Graphics g, Rectangle r, int seconds, Color c) {
-        seconds*=1000;
+
+    // draw the rect that shows player how much time they have left
+    public void fillRectangle(Graphics g, Rectangle r, int seconds, Color c){
+        seconds*=1000; // convert to milis
         int x = r.x, y = r.y, w = r.width, h = r.height;
         long elapsed = System.currentTimeMillis() - starttime;
         g.setColor(c);
         if(elapsed < seconds){
-            w = (int)((w*elapsed)/seconds);
+            w = (int)((w*elapsed)/seconds); // get width of rect correlated to the time passed
             g.fillRect(x, y, w, h);
         }
         else{
@@ -208,24 +204,25 @@ public class Setup {
         }
     }
 
-    
-    
-
     // Draw method to render the images
     public void draw(Graphics g) {
         g.drawImage(bg, 0, 0, null);
-        if(item[level][TOMATOES]) g.drawImage(imgs[TOMATOES], 513, 420, null); 
-        if(item[level][LETTUCE]) g.drawImage(imgs[LETTUCE], 503, 350, null);  
+        if(item[level][TOMATOES]) g.drawImage(imgs[TOMATOES], 513, 420, null); // tomato basket
+        if(item[level][LETTUCE]) g.drawImage(imgs[LETTUCE], 503, 350, null);  // lettuce basket
           
+        // bun baskets
         if(item[level][HOTDOGBUNS]) g.drawImage(imgs[HOTDOGBUNS], 413, 460, null); 
         if(item[level][BURGERBUNS]) g.drawImage(imgs[BURGERBUNS], 303, 460, null);
         
+        // sausage/patty baskets
         if(item[level][SAUSAGES]) g.drawImage(imgs[SAUSAGES], 720, 500, null); 
         if(item[level][PATTIES]) g.drawImage(imgs[PATTIES], 630, 508, null);
 
+        // fryer
         if(item[level][FRYER]) g.drawImage(imgs[FRYER], 155, 468, null);  
         //if(item[level][FRIES]) g.drawImage(imgs[FRIES], 221, 382, null);  
 
+        // pans
         if(strs[BURGERPAN] == 0 && item[level][BURGERPAN]) g.drawImage(imgs[BURGERPAN], 612, 415, null);
         if(strs[HOTDOGPAN] == 0 && item[level][HOTDOGPAN]) g.drawImage(imgs[HOTDOGPAN], 688, 417, null);
         if(strs[BURGERPAN] == 1 && item[level][BURGERPAN]){
@@ -259,12 +256,15 @@ public class Setup {
             g.drawImage(imgs[HOTDOGPAN], 623, 281, null);
         }
 
+        // table (locks)
         g.drawImage(imgs[HOTDOGTABLE], 0, 0, null);
         g.drawImage(imgs[BURGERTABLE], 0, 0, null);
 
-        g.setColor(Color.GRAY);
+        // drawing the rectangle that shows how much time player has left
+        g.setColor(Color.GRAY); // background full rectangle is gray
         g.fillRect(timeRect.x, timeRect.y, timeRect.width, timeRect.height);
-        fillRectangle(g, timeRect, 5, Color.GREEN);
+
+        fillRectangle(g, timeRect, 5, Color.GREEN); // draw the rect
         g.drawImage(playtopbar, 0, 0, null);  
         goal = 10;
         int w = starRect[2].width;
@@ -286,6 +286,5 @@ public class Setup {
         hotdog.draw(g);
         hamburger.draw(g);
         coladispenser.draw(g);
-
     }
 }

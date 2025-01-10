@@ -22,7 +22,7 @@ class Hamburger{
                                                                     new Rectangle(505, 357, 62, 51),
                                                                     new Rectangle(505, 357, 65, 55),
                                                                     new Rectangle(505, 355, 63, 58)};
-    private Image[] imgs, burnedpatty;
+    private Image[] imgs, burnedpatty; 
     private Image trash;
     private int[] strs;
     private int plates, grabbedtype, grabbedPlate, skip;

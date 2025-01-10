@@ -7,7 +7,7 @@ class Menu{
     public static final Rectangle backRect = new Rectangle(367, 388, 178, 37);
 
     private int prevScreen;
-
+ 
     Point p;
 
     public Menu(int screen){

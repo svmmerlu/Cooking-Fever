@@ -12,7 +12,7 @@ public class CookingFever extends JFrame {
         setLocationRelativeTo(null); // center the frame on the screen
         setVisible(true);
     }
-
+ 
     public static void main(String[] arguments) {
         new CookingFever();
     }

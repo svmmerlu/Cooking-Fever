@@ -15,7 +15,7 @@ class ColaDispenser{
         served = false;
         grabbed = null;
         timer = new long[]{0, 0, 0};
-        strs = null;
+        strs = null; 
         imgs = null;
         mouseHeld = false;
         mousePressPoint = null;

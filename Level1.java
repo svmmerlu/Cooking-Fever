@@ -34,7 +34,7 @@ class Level1{
         setup = Setup.getInstance();
         setup.setLevel(1);
         setup.setGoal(130);
-        burger = new Hamburger();
+        burger = new Hamburger(); 
         cola = new ColaDispenser();
         burger.setImgs(setup.getBurgerStars());
         cola.setImgs(setup.getColaStars());

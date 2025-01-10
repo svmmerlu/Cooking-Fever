@@ -17,7 +17,7 @@ class Hotdog{
                                                                     new Rectangle(515, 260, 38, 80)};
     private Image[] imgs, burnedsausage;
     private Image trash;
-    private int[] strs;
+    private int[] strs; 
     private int plates;
     private boolean [][] table;
     private Point mousePressPoint, mouseReleasePoint, p;
