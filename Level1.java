@@ -16,7 +16,6 @@ class Level1{
     private Image coins;
     private Person [] people;
     private int[] orders;
-    private int n; // num of people / length of people[]
     private int grabbedtype;
     private int[] money;
     private long starttime;
@@ -44,19 +43,15 @@ class Level1{
                               new Person(BLONDEPIXIEWOMAN), new Person(PURPLEHATWOMAN), new Person(GREYHOODIEKID),
                               new Person(PONYTAILWOMAN), new Person(EARMUFFMAN), new Person(GREENVESTKID),
                               new Person(BLONDEMAN), new Person(OLDWOMAN), new Person(FLUFFYHATMAN)};
-        
-        n = people.length;
-        for(int i = 0; i < n; i++){
-            people[i].setOrder(orders[i]);
-        }
     }
     
     public void draw(Graphics g){
         long elapsed = System.currentTimeMillis() - starttime;
         if(elapsed <= 5000){
-            people[0].moveTo(3);
-            people[0].draw(g);
+            //System.out.println("MOVE");
         }
+        people[0].moveTo(3);
+        people[0].draw(g);
         p = setup.getMouse();
         if(grabbed == null){
             grabbed = setup.getGrabbedRect();

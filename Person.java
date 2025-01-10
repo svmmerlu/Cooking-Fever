@@ -21,14 +21,12 @@ class Person{
     private Image[] walking, ordering;
     private int [] frame;
     private Rectangle rect;
-    private int person, speed, x, framedelay, state, order, patience, rectNum;
+    private int person, speed, x, framedelay, state, patience, rectNum;
     private long starttime;
-    private boolean ordercompleted;
     public Person(int p){
         starttime = -1;
         patience = pati[p];
         rect = null;
-        ordercompleted = false;
         state = NONE;
         x = -150;
         speed = 5;
@@ -52,11 +50,8 @@ class Person{
 
     public int getRectNum(){return rectNum;}
 
-    public void setOrderCompleted(){
-        ordercompleted = true;
-        state = WALKINGAWAY;
-    }
-    public void setOrder(int o){ order = o;}
+    public void setOrderCompleted(){ state = WALKINGAWAY;}
+
     public Rectangle getRect(){return rect;}
     public int getState(){return state;}
 
@@ -115,5 +110,6 @@ class Person{
                 state = WALKINGAWAY;
             }
         }
+        g.drawImage(walking[0], 400, 122, null);
     }
 }

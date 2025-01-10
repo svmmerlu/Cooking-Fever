@@ -49,7 +49,10 @@ class Levels{
         for(int i = 1; i < 10; i++) stars[i] = 0;
     }
 
-    public Boolean menuHover(){return menuRect.contains(p);}
+    public Boolean menuHover(){
+        if(p!=null) return menuRect.contains(p);
+        return false;
+    }
 
     public void setMouse(Point mousePoint) {
         if (mousePoint != null) {
@@ -80,7 +83,7 @@ class Levels{
         }
 
         for(int i = 0; i < 10; i++){
-            if(levelunlocked[i] && levelbtn[i].contains(p)) g.drawImage(levelhover, levelbtn[i].x, levelbtn[i].y, null);
+            if(p!=null && levelunlocked[i] && levelbtn[i].contains(p)) g.drawImage(levelhover, levelbtn[i].x, levelbtn[i].y, null);
         }
     }
 }
