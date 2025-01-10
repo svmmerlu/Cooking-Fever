@@ -440,7 +440,6 @@ class Hamburger{
                 g.drawImage(imgs[COOKEDPATTY], x, y, null);
                 if(elapsed >= 7000){
                     patties[pan][STATE] = BURNT;
-                    loses -= costs[PATTY][strs[PATTY]];
                 }
             }
             else{
@@ -485,6 +484,7 @@ class Hamburger{
             if(trashRect.contains(p)){
                 patties[pan][TIME] = FALSE;
                 patties[pan][STATE] = RAW;
+                loses -= costs[PATTY][strs[PATTY]];
                 
             }else{
                 long elapsed = System.currentTimeMillis() - pause;

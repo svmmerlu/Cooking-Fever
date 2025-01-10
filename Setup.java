@@ -285,7 +285,7 @@ public class Setup {
 
         g.drawImage(playtopbartop, 0, 0, null);  
         if(menuHover()) g.drawImage(menuhover, 0, 0, null);
-        hotdog.draw(g);
+        if(item[level][HOTDOGTABLE])hotdog.draw(g); // only draw if this level has hotdogs unlocked
         hamburger.draw(g);
         coladispenser.draw(g);
     }

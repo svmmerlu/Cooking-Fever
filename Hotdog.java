@@ -180,7 +180,6 @@ class Hotdog{
                 g.drawImage(imgs[PANCOOKEDSAUSAGE], x, y, null);
                 if(elapsed >= 7000){
                     sausages[pan][STATE] = BURNT;
-                    loses -= costs[SAUSAGE][strs[SAUSAGE]];
                 }
             }
             else{
@@ -224,6 +223,7 @@ class Hotdog{
             if(trashRect.contains(p)){
                 sausages[pan][TIME] = FALSE;
                 sausages[pan][STATE] = RAW;
+                loses -= costs[SAUSAGE][strs[SAUSAGE]];
                 
             }else{
                 long elapsed = System.currentTimeMillis() - pause;
