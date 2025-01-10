@@ -611,9 +611,6 @@ class Hamburger{
             }
         }
         if(served){
-            if(grabbed==null) System.out.println("GRABBED");
-            if(grabbedtype==-1) System.out.println("GRABBEDTYPE");
-            if(grabbedPlate==-1) System.out.println("GRABBEDPLATE");
             if(grabbed!=null && grabbedtype !=-1 && grabbedPlate!=-1){
                 for(int i = 0; i <= 3; i++){
                     table[grabbedPlate][i] = false;

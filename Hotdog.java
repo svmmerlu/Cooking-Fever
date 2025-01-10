@@ -5,10 +5,15 @@ class Hotdog{
     public static final int BUN = 0, SAUSAGE = 1, COOKEDSAUSAGE = 2, PANCOOKEDSAUSAGE = 3, GRABKETCHUP = 4, KETCHUPBOTTLE = 5, KETCHUPSQUIRT = 6, PLATE = 7, PANS = 8;
     public static final int HASPLATE = 0, HASSAUSAGE = 1, HASKETCHUP = 2;
     public static final int TIME = 0, FALSE = -1, RAW = 1, DONE = 2, STATE = 1, BURNT = 3;
+    public static final int HOTDOG = 2, KETCHUPHOTDOG = 3; // used in level classes
     public static final Rectangle trashRect = new Rectangle(43, 472, 70, 60);
     public static final Rectangle plateRect[] = new Rectangle[]{new Rectangle(412, 398, 65, 40), 
                                                                 new Rectangle(414, 343, 65, 40),
                                                                 new Rectangle(415, 295, 65, 40)};
+
+    public static final Rectangle [] hotdogRects = new Rectangle[]{new Rectangle(418,392, 57,38),
+                                                                   new Rectangle(421,336, 57,38),
+                                                                   new Rectangle(421,291, 57,38)};
     public static final Rectangle bunbasket = new Rectangle(415, 473, 80, 55);
     public static final Rectangle rawsausagebasket = new Rectangle(722, 520, 70, 39);
     public static final Rectangle[] ketchupbottle = new Rectangle[]{new Rectangle(515, 260, 25, 80),
@@ -21,6 +26,9 @@ class Hotdog{
     private int [][] costs; // the costs of each component of hotdogs
     private int plates;
     private int loses; // how much money lost from burnt sausages
+    private int grabbedtype, grabbedPlate; // to be used in level classes
+    private boolean served; // if the grabbed hotdog was served to a customer
+    private Rectangle grabbed;
     private boolean [][] table;
     private Point mousePressPoint, mouseReleasePoint, p;
     private boolean mouseHeld, mouseClicked, ketchupgrabbed;
@@ -29,6 +37,10 @@ class Hotdog{
     private long pause;
 
     public Hotdog() {
+        served = false;
+        grabbed = null;
+        grabbedtype = -1;
+        grabbedPlate = -1;
         loses = 0;
         pause = 0;
         trash = new ImageIcon("trash.png").getImage();
@@ -76,6 +88,10 @@ class Hotdog{
         costs[SAUSAGE][3] = 13;
     }
 
+    public void removeHotdog(){served = true;}
+    public Rectangle getGrabbedRect(){return grabbed;}
+    public int getGrabbedType(){return grabbedtype;}
+
     public int getCost(boolean k){
         int cost = 0;
         if(k) cost += costs[KETCHUPSQUIRT][strs[KETCHUPBOTTLE]];
@@ -120,7 +136,7 @@ class Hotdog{
     }
 
     private void drawHotdog(Graphics g, int x, int y, int tble){
-        if(table[tble][HASPLATE]){
+        if(table[tble][HASPLATE] && grabbedPlate != tble){
             g.drawImage(imgs[PLATE], x, y, null);
             g.drawImage(imgs[BUN], x+28, y+35, null);
             if(table[tble][HASSAUSAGE]){
@@ -297,6 +313,34 @@ class Hotdog{
                 }
                 ketchupgrabbed = false;
             }
+        }
+
+
+        for(int i = 0; i < 3; i++){
+            if(table[i][HASPLATE] && table[i][BUN] && table[i][HASSAUSAGE] && mouseHeld && plateRect[i].contains(mousePressPoint)){
+                grabbed = hotdogRects[i];
+                grabbedPlate = i;
+                if(table[i][HASKETCHUP]) grabbedtype = KETCHUPHOTDOG;
+                else grabbedtype = HOTDOG;
+            }
+            if(served){
+                grabbed = null;
+                grabbedPlate = -1;
+                grabbedtype = -1;
+                plates --;
+                table[grabbedPlate][HASSAUSAGE] = false;
+                table[grabbedPlate][HASPLATE] = false;
+                table[grabbedPlate][HASKETCHUP] = false;
+            }
+        }
+
+        //drawHotdog(g, 100, 100, true);
+        //g.drawRect(104, 100, 57,38);
+
+        for(int i = 0; i < 3; i++){
+            table[i][HASSAUSAGE] = true;
+            table[i][HASPLATE] = true;
+            table[i][HASKETCHUP] = true;
         }
     }
 }
