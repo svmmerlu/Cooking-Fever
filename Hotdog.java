@@ -336,11 +336,5 @@ class Hotdog{
 
         //drawHotdog(g, 100, 100, true);
         //g.drawRect(104, 100, 57,38);
-
-        for(int i = 0; i < 3; i++){
-            table[i][HASSAUSAGE] = true;
-            table[i][HASPLATE] = true;
-            table[i][HASKETCHUP] = true;
-        }
     }
 }
