@@ -280,10 +280,10 @@ public class Setup {
             starachieved = 3;
             g.fillRect(starRect[2].x, starRect[2].y, starRect[2].width, starRect[2].height);
         }
-        if(starachieved!=0) g.drawImage(starimgs[starachieved-1], 0, 0, null);
 
         g.drawImage(playtopbartop, 0, 0, null);  
         if(menuHover()) g.drawImage(menuhover, 0, 0, null);
+        if(starachieved!=0) g.drawImage(starimgs[starachieved-1], 0, 0, null);
         if(item[level][HOTDOGTABLE])hotdog.draw(g); // only draw if this level has hotdogs unlocked
         hamburger.draw(g);
         coladispenser.draw(g);
