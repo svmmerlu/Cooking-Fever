@@ -85,7 +85,6 @@ class ColaDispenser{
 
     public void drawCola(Graphics g, int x, int y){
         g.drawImage(imgs[COLA], (int)x-20, (int)y-20, null);
-        System.out.println("DRAWN");
     }
 
     public void draw(Graphics g){
@@ -157,6 +156,7 @@ class ColaDispenser{
                     cola[i][DISPENSED] = false;
                 }
                 cola[i][GRABBED] = false;
+                grabbed = null;
             }
         }
     }
