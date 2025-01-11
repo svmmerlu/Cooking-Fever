@@ -264,26 +264,25 @@ public class Setup {
         // drawing the rectangle that shows how much time player has left
         g.setColor(Color.GRAY); // background full rectangle is gray
         g.fillRect(timeRect.x, timeRect.y, timeRect.width, timeRect.height);
-
         fillRectangle(g, timeRect, 5, Color.GREEN); // draw the rect
-        g.drawImage(playtopbar, 0, 0, null);  
-        goal = 10;
-        int w = starRect[2].width;
+        g.drawImage(playtopbar, 0, 0, null);   // the bottom of the top bar
+        int w = starRect[2].width; // the full width is teh width of the 3 star rect
         g.setColor(Color.YELLOW);
         if(money < goal){
             w = (int)((w*money)/goal);
+            // set which stars have been achieved
             if(w >= starRect[0].width) starachieved = 1;
-            if(w >= starRect[1].width) starachieved = 2;
-            g.fillRect(starRect[2].x, starRect[2].y, w, starRect[2].height);
+            if(w >= starRect[1].width) starachieved = 2; 
+            g.fillRect(starRect[2].x, starRect[2].y, w, starRect[2].height); // x, y, h r the same for all star rects
         }
         else{
-            starachieved = 3;
+            starachieved = 3; // 3 stars acheived / rect fully filled
             g.fillRect(starRect[2].x, starRect[2].y, starRect[2].width, starRect[2].height);
         }
 
-        g.drawImage(playtopbartop, 0, 0, null);  
-        if(menuHover()) g.drawImage(menuhover, 0, 0, null);
-        if(starachieved!=0) g.drawImage(starimgs[starachieved-1], 0, 0, null);
+        g.drawImage(playtopbartop, 0, 0, null);  // the top of it so the money rect is sandwhiched in between
+        if(menuHover()) g.drawImage(menuhover, 0, 0, null); // if player is hovering over menu
+        if(starachieved!=0) g.drawImage(starimgs[starachieved-1], 0, 0, null); // draw stars player has achieved
         if(item[level][HOTDOGTABLE])hotdog.draw(g); // only draw if this level has hotdogs unlocked
         hamburger.draw(g);
         coladispenser.draw(g);
