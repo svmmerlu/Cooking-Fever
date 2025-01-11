@@ -9,7 +9,7 @@ class ColaDispenser{
     private int grabbedtype; // type grabbed
     private long timer[];
     private Rectangle colaRects[][];
-    private Point mousePressPoint, p;
+    private Point mousePressPoint;
     private boolean mouseHeld, served;
     private boolean [][] cola;
     public ColaDispenser(){
@@ -21,7 +21,6 @@ class ColaDispenser{
         imgs = null;
         mouseHeld = false;
         mousePressPoint = null;
-        p = null;
         colaRects = new Rectangle[4][4];
         colaRects[0][0] = new Rectangle(165, 385, 32, 43);
         colaRects[1][0] = new Rectangle(165, 385, 32, 43);
@@ -72,11 +71,6 @@ class ColaDispenser{
         }
         mousePressPoint = point;
         mouseHeld = true;
-    }
-    
-
-    public void setMouse(Point point){
-        p = point;
     }
 
     public void setMouseReleasePoint(Point point){

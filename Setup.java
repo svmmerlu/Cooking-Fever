@@ -161,7 +161,6 @@ public class Setup {
             // set to all other classes
             hamburger.setMouse(p);
             hotdog.setMouse(p);
-            coladispenser.setMouse(p);
         }
     }
 
