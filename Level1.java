@@ -16,6 +16,7 @@ class Level1{
     private Image coins;
     private Person [] people;
     private int[] orders;
+    private boolean[] rectOccupied;
     private int grabbedtype;
     private int[] money;
     private long starttime;
@@ -24,6 +25,7 @@ class Level1{
     private Rectangle grabbed;
     private Point p;
     public Level1(){
+        rectOccupied = new boolean[]{false, false, false, false};
         starttime = System.currentTimeMillis();
         money = new int[]{NONE, NONE, NONE, NONE};
         coins = new ImageIcon("coins.png").getImage();
@@ -44,6 +46,19 @@ class Level1{
                               new Person(PONYTAILWOMAN), new Person(EARMUFFMAN), new Person(GREENVESTKID),
                               new Person(BLONDEMAN), new Person(OLDWOMAN), new Person(FLUFFYHATMAN)};
     }
+
+    public void setStarttime(long s){starttime = s;}
+
+    private int getRect(){
+        int rec = -1;
+        for(int i = 0; i < 4; i++){
+            if(!rectOccupied[i]){
+                rec = i;
+                rectOccupied[i] = true;
+            }
+        }
+        return rec;
+    }
     
     public void draw(Graphics g){
         p = setup.getMouse();
@@ -53,11 +68,19 @@ class Level1{
         }
         setup.draw(g);
         long elapsed = System.currentTimeMillis() - starttime;
-        if(elapsed <= 5000){
-            //System.out.println("MOVE");
+        if(elapsed >= 5000){
+            people[0].moveTo(getRect());
+            people[0].draw(g);
         }
-        people[0].moveTo(3);
-        people[0].draw(g);
+        if(elapsed >= 10000){
+            people[1].moveTo(getRect());
+            people[1].draw(g);
+        }
+        
+        if(elapsed >= 11000){
+            people[2].moveTo(getRect());
+            people[2].draw(g);
+        }
         //g.drawRect(people[0].getRect().x, people[0].getRect().y, people[0].getRect().width, people[0].getRect().height);
         //if(grabbed!=null) g.drawRect(grabbed.x, grabbed.y, grabbed.width, grabbed.height);
         for(int i = 0; i <= 0; i++){ // < n
@@ -92,6 +115,7 @@ class Level1{
                 if(!setup.getMouseReleased() && coinRects[i].contains(p)){
                     setup.addMoney(money[i]);
                     money[i] = NONE;
+                    rectOccupied[i] = false; // spot no longer occupied once player collects the money in that spot
                 }
             }
         }

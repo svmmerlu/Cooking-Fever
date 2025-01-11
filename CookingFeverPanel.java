@@ -23,7 +23,6 @@ class CookingFeverPanel extends JPanel implements ActionListener {
         menu = new Menu(screen);
         levels = new Levels();
         level1 = new Level1();
-// sdffds
         timer = new Timer(20, this);
         timer.start();
 
