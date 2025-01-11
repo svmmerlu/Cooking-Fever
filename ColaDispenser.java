@@ -1,22 +1,26 @@
+/*
+ * Manages drawing cola machine, colas, cola dispensing, and moving/grabbing
+ */
 import java.awt.*;
 import javax.swing.*;
 class ColaDispenser{
-    public static final int COLADISPENSER = 0, COLA = 1, EMPTYCOLA = 2;
-    public static final int GRABBED = 0, DISPENSED = 1;
-    private Image [] imgs;
+    public static final int COLADISPENSER = 0, COLA = 1, EMPTYCOLA = 2; // indices
+    public static final int GRABBED = 0, DISPENSED = 1; // indices
+    private Image [] imgs; 
     private int [] strs;
     private Rectangle grabbed;
     private int grabbedtype; // type grabbed
-    private long timer[];
-    private Rectangle colaRects[][];
+    private long timer[]; // timer[x] = time cola[x] started dispensing
+    private Rectangle colaRects[][]; // colaRects[DIPENSER STARS][COLA AT SPOT X] 
     private Point mousePressPoint;
-    private boolean mouseHeld, served;
-    private boolean [][] cola;
+    private boolean mouseHeld, served; // served is same as that in other classes
+    private boolean [][] cola; // cola[SPOT X][DISPENSED OR GRABBED]
     public ColaDispenser(){
+        // initialize variables
         grabbedtype = 1; // cola has no toppings
         served = false;
         grabbed = null;
-        timer = new long[]{0, 0, 0};
+        timer = new long[]{0, 0, 0}; // colas start dispensing immediately when level starts
         strs = null; 
         imgs = null;
         mouseHeld = false;
@@ -62,37 +66,31 @@ class ColaDispenser{
         served = true;
     }
     
-    public Rectangle getGrabbedRect(){return grabbed;}
+    public Rectangle getGrabbedRect(){return grabbed;} // used in Setup
     
 
-    public void setMousePressPoint(Point point) {
-        if (point == null) {
-            throw new IllegalArgumentException("Point cannot be null");
-        }
+    public void setMousePressPoint(Point point) { 
+        // don't need to check if point is null bc already checked when setMousePressPoint was called in Setup
         mousePressPoint = point;
         mouseHeld = true;
     }
 
-    public void setMouseReleasePoint(Point point){
-        mouseHeld = false;
-    }
+    public void setMouseReleasePoint(Point point){ mouseHeld = false;} // if mouse was released then mouseHeld = false
 
-    public void drawCola(Graphics g, int x, int y){
-        g.drawImage(imgs[COLA], (int)x-20, (int)y-20, null);
-    }
+    // used in level classes
+    public void drawCola(Graphics g, int x, int y){ g.drawImage(imgs[COLA], (int)x-20, (int)y-20, null);}
 
     public void draw(Graphics g){
         g.drawImage(imgs[COLADISPENSER], 90, 248, null);
-        // x + 25,  y + 40
-        
-        for(int i = 0; i <= strs[COLADISPENSER]; i++){
+
+        for(int i = 0; i <= strs[COLADISPENSER]; i++){  // iterate thru each cola. the # of colas correlates to the dispenser stars
             long elapsed = System.currentTimeMillis() - timer[i];
-            if(strs[COLADISPENSER] == 0){
+            if(strs[COLADISPENSER] == 0){ // has 1 cola and takes 10s to dispense
                 if(elapsed >= 10000 && !cola[i][DISPENSED] && !cola[i][GRABBED]){
                     g.drawImage(imgs[EMPTYCOLA], 160, 385, null); 
                     cola[i][DISPENSED] = true;
                 }
-                else if(!cola[i][GRABBED]){
+                else if(!cola[i][GRABBED]){ // if cola is grabbed it is no longer drawn on the dispenser 
                     g.drawImage(imgs[COLA], 160, 385, null); 
                 }
             }
@@ -138,8 +136,6 @@ class ColaDispenser{
         if(strs[COLADISPENSER] == 2) x = 2;
         if(strs[COLADISPENSER] == 3) x = 3;
         for(int i = 0; i < x; i++){
-            //if(cola[i][GRABBED]) g.drawImage(imgs[COLA], (int)p.getX()-20, (int)p.getY()-20, null);
-            
             if(cola[i][DISPENSED] && mouseHeld && colaRects[strs[COLADISPENSER]][i].contains(mousePressPoint)){
                 cola[i][GRABBED] = true;
                 grabbed = colaRects[strs[COLADISPENSER]][i];
