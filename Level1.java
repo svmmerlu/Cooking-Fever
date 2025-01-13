@@ -15,11 +15,13 @@ class Level1{
     private Setup setup;
     private Image coins;
     private Person [] people;
+    private int [] peopleposnum; // the rectangle person x walks to
     private int[] orders;
     private boolean[] rectOccupied;
     private int grabbedtype;
     private int[] money;
     private long starttime;
+    private long []spawntime; // the time person x spawns in / can start wlaking into the game if a spot is available
     private Hamburger burger;
     private ColaDispenser cola;
     private Rectangle grabbed;
@@ -45,12 +47,19 @@ class Level1{
                               new Person(BLONDEPIXIEWOMAN), new Person(PURPLEHATWOMAN), new Person(GREYHOODIEKID),
                               new Person(PONYTAILWOMAN), new Person(EARMUFFMAN), new Person(GREENVESTKID),
                               new Person(BLONDEMAN), new Person(OLDWOMAN), new Person(FLUFFYHATMAN)};
+        
+        peopleposnum = new int[people.length];
+        for(int i = 0; i < people.length; i++){
+            peopleposnum[i] = NONE; // all positions r currently undetermined
+        }
+        
+        spawntime = new long[]{5000, 10000, 11000, 16000, 50000, 54000, 55000, 59000, 94000, 96000, 100000, 102000};
     }
 
     public void setStarttime(long s){starttime = s;}
 
     private int getRect(){
-        int rec = -1;
+        int rec = NONE;
         for(int i = 0; i < 4; i++){
             if(!rectOccupied[i]){
                 rec = i;
@@ -68,18 +77,15 @@ class Level1{
         }
         setup.draw(g);
         long elapsed = System.currentTimeMillis() - starttime;
-        if(elapsed >= 5000){
-            people[0].moveTo(getRect());
-            people[0].draw(g);
-        }
-        if(elapsed >= 10000){
-            people[1].moveTo(getRect());
-            people[1].draw(g);
-        }
-        
-        if(elapsed >= 11000){
-            people[2].moveTo(getRect());
-            people[2].draw(g);
+        for(int i = 0; i < people.length; i++){ // iterate thru all people
+            if(elapsed >= spawntime[i]){ // if it is there time to spawn in
+                // we only want to draw them into a spot if there is a open spot for them to walk to
+                if(peopleposnum[i] == NONE) peopleposnum[i] = getRect(); // getRect() will be NONE if no open Rect
+                if(peopleposnum[i] != NONE){ // if there is a open spot, move the person and draw them to that position
+                    people[i].moveTo(peopleposnum[i]);
+                    people[i].draw(g);
+                }
+            }
         }
         //g.drawRect(people[0].getRect().x, people[0].getRect().y, people[0].getRect().width, people[0].getRect().height);
         //if(grabbed!=null) g.drawRect(grabbed.x, grabbed.y, grabbed.width, grabbed.height);
