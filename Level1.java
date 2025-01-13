@@ -89,7 +89,7 @@ class Level1{
         }
         //g.drawRect(people[0].getRect().x, people[0].getRect().y, people[0].getRect().width, people[0].getRect().height);
         //if(grabbed!=null) g.drawRect(grabbed.x, grabbed.y, grabbed.width, grabbed.height);
-        for(int i = 0; i <= 0; i++){ // < n
+        for(int i = 0; i < people.length; i++){ 
             if(grabbed != null && people[i].getState() == ORDERING && people[i].getRect().contains(grabbed) && setup.getMouseReleased()){
                 if(grabbedtype == orders[i]){
                     if(orders[i] == BURGER){
