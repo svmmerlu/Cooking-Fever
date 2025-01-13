@@ -10,9 +10,9 @@ class Person{
     public static final int NONE = -1, WALKING = 0, ORDERING = 1, WALKINGAWAY = 2;
     private static final int [] pati = new int[]{23000, 33000, 14000, 23000, 28000, 33000, 1400, 33000, 28000};
     public static final String[] names = new String[]{"purplewoman", "greyhoodiekid", "ponytailwoman", 
-                                                      "blondepixiewoman", "earmuffman", "greenvestkid",
+                                                      "blondpixiewoman", "earmuffman", "greenvestkid",
                                                       "blondeman", "oldwoman", "fluffyhatman"};
-    public static final int[][] frames = new int[][]{{5, 9}, {5, 9}, {5, 9}, {5, 9}, {5, 9}, {5, 9}, {5, 9}, {5, 9}, {5, 9}};
+    public static final int[][] frames = new int[][]{{5, 9}, {5, 6}, {5, 7}, {5, 6}, {5, 6}, {5, 6}, {4, 8}, {5, 6}, {4, 8}};
     public static final int W = 0, O = 1;
     Rectangle []rects = new Rectangle[]{new Rectangle(49, 119, 145, 139), 
                                         new Rectangle(269, 119, 145, 139),
