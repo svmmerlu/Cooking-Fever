@@ -107,8 +107,8 @@ class Level1{
             }
 
             if(people[i].getRect()!=null && people[i].getState() == ORDERING){
-                if(orders[i] == BURGER) burger.drawBurger(g, people[0].getRect().x - 20,130, false, false);
-                if(orders[i] == COLA) cola.drawCola(g, people[0].getRect().x - 20, 130);
+                if(orders[i] == BURGER) burger.drawBurger(g, people[i].getRect().x - 20,130, false, false);
+                if(orders[i] == COLA) cola.drawCola(g, people[i].getRect().x + 35, 185);
             }
 
             if(orders[i] == COMPLETED || people[i].getState() == WALKINGAWAY){
@@ -145,6 +145,8 @@ class Level1{
         if(setup.getMouseReleased()){
             grabbed = null;
         }
+
+        if(people[people.length-1].getState() == WALKINGAWAY) setup.setGameover(true); // after last customer walks away, game is over
         
     }
 }

@@ -27,6 +27,7 @@ public class Setup {
     private Point p; // mouse point
     private Boolean [][]item; // whether item[LEVEL][x] exists in this level
     private Boolean mouseReleased;
+    private Boolean gameover; // if game has been won or not
     private Boolean itemupgraded; // to tell level classes to update images since an item was upgraded
     private int level; // the lvl we are setting up
     // goal: amount of money that will earn player 3 stars
@@ -40,6 +41,7 @@ public class Setup {
 
     private Setup() {
         // initialize variables
+        gameover = false;
         itemupgraded = false;
         starimgs = new Image[]{new ImageIcon("1star.png").getImage(),
                                new ImageIcon("2star.png").getImage(),
@@ -67,6 +69,22 @@ public class Setup {
                                {false, false, false, true, true, true, true, true, true, true, true, true, true, true, true, true},
                                {false, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true},
                                {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true}};
+    }
+
+    // used in level classes
+    public void setGameover(boolean w){gameover = w;}
+    public boolean getGameover(){return gameover;} // used in panel to switch screens
+
+    // used in Upgrades
+    public int getMoneyAfterLvl(){
+        if(gameover) return money;
+        return -1;
+    }
+
+    // used in Upgrades
+    public int getDiamondsAfterLvl(){
+        if(gameover) return starachieved;
+        return -1;
     }
 
     // startime is set in Panel once a level has been clicked
@@ -193,6 +211,7 @@ public class Setup {
         seconds*=1000; // convert to milis
         int x = r.x, y = r.y, w = r.width, h = r.height;
         long elapsed = System.currentTimeMillis() - starttime;
+        if(elapsed >= seconds) gameover = true; // player ran out of time
         g.setColor(c);
         if(elapsed < seconds){
             w = (int)((w*elapsed)/seconds); // get width of rect correlated to the time passed

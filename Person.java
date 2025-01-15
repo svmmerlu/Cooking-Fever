@@ -8,7 +8,7 @@ class Person{
     public static final int PURPLEHATWOMAN = 0, GREYHOODIEKID = 1, PONYTAILWOMAN = 2, BLONDEPIXIEWOMAN = 3, EARMUFFMAN = 4;
     public static final int GREENVESTKID = 5, BLONDEMAN = 6, OLDWOMAN = 7, FLUFFYHATMAN = 8;
     public static final int NONE = -1, WALKING = 0, ORDERING = 1, WALKINGAWAY = 2;
-    private static final int [] pati = new int[]{23000, 33000, 14000, 23000, 28000, 33000, 1400, 33000, 28000};
+    private static final int [] pati = new int[]{23000, 33000, 14000, 23000, 28000, 33000, 31400, 33000, 28000}; // patience / time customer will wait before leaving
     public static final String[] names = new String[]{"purplewoman", "greyhoodie", "ponytail", 
                                                       "pixie", "earmuff", "green",
                                                       "blondeman", "oldwoman", "fluffyhatman"};

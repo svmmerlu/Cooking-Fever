@@ -3,7 +3,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 class CookingFeverPanel extends JPanel implements ActionListener {
-    public static final int HOME = 0, PLAY = 1, UPGRADES = 2, MENU = 3, LEVELS = 4; // no magic numbers
+    public static final int HOME = 0, PLAY = 1, UPGRADES = 2, MENU = 3, LEVELS = 4, GAMEOVER = 15; // no magic numbers
     public static final int LEVEL1 = 5, LEVEL2 = 6, LEVEL3 = 7, LEVEL4 = 8, LEVEL5 = 9, LEVEL6 = 10, LEVEL7 = 11, LEVEL8 = 12, LEVEL9 = 13, LEVEL10 = 14; // no magic numbers
     private Timer timer;
     private int screen;
@@ -13,10 +13,12 @@ class CookingFeverPanel extends JPanel implements ActionListener {
     private Levels levels;
     private Level1 level1;
     private Setup setup;
+    private Gameover gameover;
 
     public CookingFeverPanel() {
-        screen = LEVELS;
+        screen = GAMEOVER;
 
+        gameover = new Gameover();
         setup = Setup.getInstance();
         home = new Home();
         upgrades = new Upgrades();
@@ -43,6 +45,7 @@ class CookingFeverPanel extends JPanel implements ActionListener {
             menu.setMouse(mousePoint);
             levels.setMouse(mousePoint);
             setup.setMouse(mousePoint);
+            gameover.setMouse(mousePoint);
         }
     }
 
@@ -59,6 +62,7 @@ class CookingFeverPanel extends JPanel implements ActionListener {
         if(screen == MENU)menu.draw(g);
         if(screen == LEVELS)levels.draw(g);
         if(screen == LEVEL1)level1.draw(g);
+        if(screen == GAMEOVER)gameover.draw(g);
     }
 
     class ClickListener implements MouseListener {
@@ -100,7 +104,10 @@ class CookingFeverPanel extends JPanel implements ActionListener {
             if(screen >= LEVEL1 && screen <= LEVEL10 && setup.menuHover()){
                 menu.setPrevScreen(screen);
                 screen = MENU;
+                if(setup.getGameover()) screen = GAMEOVER;
             }
+
+            //if(screen == GAMEOVER && gameover.nextHover()) screen = LEVELS;
 
             setup.setMousePressPoint(e.getPoint());
         }

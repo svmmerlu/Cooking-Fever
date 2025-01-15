@@ -97,12 +97,14 @@ class Upgrades {
 
     public void setMouse(Point mousePoint) { if(mousePoint != null) p = mousePoint;}
     public void setClicked(Boolean click){clicked = click;} 
-    public void setMoney(int m){money = m;} 
-    public void setDiamonds(int d){diamonds = d;} 
 
     public Boolean menuHover(){return menuRect.contains(p);} // used in Panel to change screens
 
     public void draw(Graphics g) {
+        int m = setup.getMoneyAfterLvl();
+        int d = setup.getDiamondsAfterLvl();
+        if(d!=-1) diamonds += d;
+        if(m!=-1) money += m;
         g.drawImage(upgrades, 0, 0, null);
         g.drawImage(topbar, 0, 0, null);
         if(menuHover()) g.drawImage(menuhover, 0, 0, null);
