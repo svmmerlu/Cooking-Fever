@@ -9,8 +9,8 @@ class Person{
     public static final int GREENVESTKID = 5, BLONDEMAN = 6, OLDWOMAN = 7, FLUFFYHATMAN = 8;
     public static final int NONE = -1, WALKING = 0, ORDERING = 1, WALKINGAWAY = 2;
     private static final int [] pati = new int[]{23000, 33000, 14000, 23000, 28000, 33000, 1400, 33000, 28000};
-    public static final String[] names = new String[]{"purplewoman", "greyhoodiekid", "ponytailwoman", 
-                                                      "blondpixiewoman", "earmuffman", "greenvestkid",
+    public static final String[] names = new String[]{"purplewoman", "greyhoodie", "ponytail", 
+                                                      "pixie", "earmuff", "green",
                                                       "blondeman", "oldwoman", "fluffyhatman"};
     public static final int[][] frames = new int[][]{{5, 9}, {5, 6}, {5, 7}, {5, 6}, {5, 6}, {5, 6}, {4, 8}, {5, 6}, {4, 8}};
     public static final int W = 0, O = 1;
@@ -58,7 +58,7 @@ class Person{
     public void moveTo(int r){
         rectNum = r;
         rect = rects[r];
-        if(x < rect.getX()){
+        if(x < rect.getX() - 39){
             state = WALKING;
             x+=speed;
         }
@@ -82,7 +82,7 @@ class Person{
                 frame[W] %= frames[person][W];
                 framedelay = 0;
             }
-            g.drawImage(walking[frame[W]], x, 122, null);
+            g.drawImage(walking[frame[W]], x, 88, null);
         }
         
         if(state == ORDERING){
@@ -92,7 +92,7 @@ class Person{
                 frame[O] %= frames[person][O];
                 framedelay = 0;
             }
-            g.drawImage(ordering[frame[O]], x, 122, null);
+            g.drawImage(ordering[frame[O]], x, 88, null);
         
             int x = rect.x + 63, y = rect.y + 10, h = rect.height -30, newh;
             g.setColor(Color.GRAY);
@@ -110,6 +110,5 @@ class Person{
                 state = WALKINGAWAY;
             }
         }
-
     }
 }

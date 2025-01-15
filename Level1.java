@@ -53,7 +53,7 @@ class Level1{
             peopleposnum[i] = NONE; // all positions r currently undetermined
         }
         
-        spawntime = new long[]{5000, 10000, 11000, 16000, 50000, 54000, 55000, 59000, 94000, 96000, 100000, 102000};
+        spawntime = new long[]{5000, 10000, 11000, 16000, 30000, 34000, 35000, 39000, 74000, 76000, 80000, 82000};
     }
 
     public void setStarttime(long s){starttime = s;}
@@ -64,6 +64,7 @@ class Level1{
             if(!rectOccupied[i]){
                 rec = i;
                 rectOccupied[i] = true;
+                break;
             }
         }
         return rec;
@@ -112,6 +113,11 @@ class Level1{
 
             if(orders[i] == COMPLETED || people[i].getState() == WALKINGAWAY){
                 people[i].moveAway();
+            }
+
+            if(orders[i] != COMPLETED && people[i].getState() == WALKINGAWAY){
+                rectOccupied[people[i].getRectNum()] = false;
+                orders[i] = COMPLETED;
             }
         }
 
