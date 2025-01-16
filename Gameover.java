@@ -24,7 +24,6 @@ class Gameover {
         setup = Setup.getInstance();
         stars = setup.getDiamondsAfterLvl(); // # diamonds = # stars
         money = setup.getMoneyAfterLvl();
-        stars = 1; // delete ltr
         bg = new ImageIcon("gameover.png").getImage();
         p = new Point(0, 0);
     }

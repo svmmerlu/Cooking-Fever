@@ -300,7 +300,7 @@ public class Setup {
         // drawing the rectangle that shows how much time player has left
         g.setColor(Color.GRAY); // background full rectangle is gray
         g.fillRect(timeRect.x, timeRect.y, timeRect.width, timeRect.height);
-        fillRectangle(g, timeRect, 5, Color.GREEN); // draw the rect
+        fillRectangle(g, timeRect, 100000, Color.GREEN); // draw the rect
         g.drawImage(playtopbar, 0, 0, null);   // the bottom of the top bar
         int w = starRect[2].width; // the full width is teh width of the 3 star rect
         g.setColor(Color.YELLOW);

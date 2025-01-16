@@ -11,8 +11,8 @@ class Person{
     private static final int [] pati = new int[]{23000, 33000, 14000, 23000, 28000, 33000, 31400, 33000, 28000}; // patience / time customer will wait before leaving
     public static final String[] names = new String[]{"purplewoman", "greyhoodie", "ponytail", 
                                                       "pixie", "earmuff", "green",
-                                                      "blondeman", "oldwoman", "fluffyhatman"};
-    public static final int[][] frames = new int[][]{{5, 9}, {5, 6}, {5, 7}, {5, 6}, {5, 6}, {5, 6}, {4, 8}, {5, 6}, {4, 8}};
+                                                      "blondeman", "oldwoman", "hat"};
+    public static final int[][] frames = new int[][]{{5, 9}, {5, 6}, {5, 7}, {5, 6}, {5, 6}, {5, 6}, {5, 8}, {5, 6}, {4, 8}};
     public static final int W = 0, O = 1;
     Rectangle []rects = new Rectangle[]{new Rectangle(49, 119, 145, 139), 
                                         new Rectangle(269, 119, 145, 139),

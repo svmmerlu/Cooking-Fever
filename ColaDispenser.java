@@ -11,12 +11,14 @@ class ColaDispenser{
     private Rectangle grabbed;
     private int grabbedtype; // type grabbed
     private long timer[]; // timer[x] = time cola[x] started dispensing
+    private long []airtime; // amount of time the cola at spot X is grabbed for
     private Rectangle colaRects[][]; // colaRects[DIPENSER STARS][COLA AT SPOT X] 
     private Point mousePressPoint;
     private boolean mouseHeld, served; // served is same as that in other classes
     private boolean [][] cola; // cola[SPOT X][DISPENSED OR GRABBED]
     public ColaDispenser(){
         // initialize variables
+        airtime = new long[]{-1, -1, -1}; // none of them are grabbed
         grabbedtype = 1; // cola has no toppings
         served = false;
         grabbed = null;
@@ -43,6 +45,7 @@ class ColaDispenser{
     }
 
     public void reinitialize(){
+        airtime = new long[]{-1, -1, -1}; // none of them are grabbed
         grabbedtype = 1; // cola has no toppings
         served = false;
         grabbed = null;
@@ -101,6 +104,9 @@ class ColaDispenser{
 
         for(int i = 0; i <= strs[COLADISPENSER]; i++){  // iterate thru each cola. the # of colas correlates to the dispenser stars
             long elapsed = System.currentTimeMillis() - timer[i];
+            if(cola[i][GRABBED] && airtime[i] == -1){
+                airtime[i] = System.currentTimeMillis();
+            }
             if(strs[COLADISPENSER] == 0){ // has 1 cola and takes 10s to dispense
                 if(elapsed >= 10000 && !cola[i][DISPENSED] && !cola[i][GRABBED]){
                     g.drawImage(imgs[EMPTYCOLA], 160, 385, null); 
@@ -160,8 +166,11 @@ class ColaDispenser{
             if(cola[i][GRABBED] && !mouseHeld){
                 if(served){
                     cola[i][DISPENSED] = false;
+                    timer[i] = System.currentTimeMillis(); //reset time
                 }
                 cola[i][GRABBED] = false;
+                timer[i] = timer[i] - (System.currentTimeMillis() - airtime[i]); // subtract airtime from dispensed time
+                airtime[i] = -1; // airtime = -1
                 grabbed = null;
             }
         }

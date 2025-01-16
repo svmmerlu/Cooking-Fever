@@ -16,7 +16,7 @@ class CookingFeverPanel extends JPanel implements ActionListener {
     private Gameover gameover;
 
     public CookingFeverPanel() {
-        screen = GAMEOVER;
+        screen = LEVELS;
 
         gameover = new Gameover();
         setup = Setup.getInstance();
@@ -63,11 +63,6 @@ class CookingFeverPanel extends JPanel implements ActionListener {
         if(screen == LEVELS)levels.draw(g);
         if(screen == LEVEL1){
             level1.draw(g);
-            if(setup.getGameover()){
-                screen = GAMEOVER; // if gameover, switch screen
-                setup.reinitialize();
-                level1 = new Level1(); // restart level 1 for next time it's used
-            } 
         }
         if(screen == GAMEOVER)gameover.draw(g);
     }
@@ -113,7 +108,15 @@ class CookingFeverPanel extends JPanel implements ActionListener {
                 screen = MENU;
             }
 
-            if(screen == GAMEOVER && gameover.getNextHover()) screen = LEVELS; // switch screen to LEVELS if next btn on gamover screen is clicked
+            if(screen == GAMEOVER && gameover.getNextHover()){
+                if(setup.getGameover()){ // couldnt be reinitialized earlier bc gameover uses some of the things in setup
+                    screen = GAMEOVER; // if gameover, switch screen
+                    setup.reinitialize();
+                    level1 = new Level1(); // restart level 1 for next time it's used
+                } 
+
+              screen = LEVELS; // switch screen to LEVELS if next btn on gamover screen is clicked
+            }
 
             setup.setMousePressPoint(e.getPoint());
         }
