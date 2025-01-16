@@ -94,35 +94,6 @@ class Hamburger{
         costs[PATTY][3] = 13;
     }
 
-    public void reinitialize(){
-        loses = 0;
-        skip = 0;
-        served = false;
-        grabbedPlate = -1;
-        grabbed = null;
-        grabbedtype = -1;
-        pause = 0;
-        plates = 0;
-        mouseHeld = false;
-        mousePressPoint = null;
-        mouseReleasePoint = null;
-        p = null;
-        mouseClicked = false;
-        pattygrabbed = new boolean[]{false, false, false, false};
-        lettucegrabbed = false;
-        tomatograbbed = false;
-        table = new boolean[3][4];
-        for(int i = 0; i < 3; i++){
-            for(int j = 0; j < 4; j++) table[i][j] = false;
-        }
-
-        patties = new long[4][2];
-        for(int i = 0; i < 4; i++){
-            patties[i][TIME] = FALSE;
-            patties[i][RAW] = RAW;
-        }
-    }
-
     public int getCost(boolean t, boolean l){
         int cost = 0;
         if(l) cost += costs[LETTUCE][strs[LETTUCE]];

@@ -27,6 +27,7 @@ public class Setup {
     private Point p; // mouse point
     private Boolean [][]item; // whether item[LEVEL][x] exists in this level
     private Boolean mouseReleased;
+    private Boolean reinitialized; // if setup has been reinitialized
     private Boolean gameover; // if game has been won or not
     private Boolean itemupgraded; // to tell level classes to update images since an item was upgraded
     private int level; // the lvl we are setting up
@@ -41,6 +42,7 @@ public class Setup {
 
     private Setup() {
         // initialize variables
+        reinitialized = true;
         gameover = false;
         itemupgraded = false;
         starimgs = new Image[]{new ImageIcon("1star.png").getImage(),
@@ -74,6 +76,7 @@ public class Setup {
     // used after a game ends and the screen changes to gameover so setup can be used for the next lvl the player plays
     public void reinitialize(){
         // reinitialize all variables that change thru a lvl
+        reinitialized = true;
         gameover = false;
         itemupgraded = false;
         mouseReleased = false; 
@@ -83,10 +86,13 @@ public class Setup {
         starachieved = 0;
         level = 0;
         p = null;
-        hamburger.reinitialize();
-        hotdog.reinitialize();
-        coladispenser.reinitialize();
+        hamburger = new Hamburger();
+        hotdog = new Hotdog();
+        coladispenser = new ColaDispenser();
     }
+
+    public boolean getReinitialized(){return reinitialized;} // used in Upgrades to setimgs
+    public void setReinitialized(){reinitialized = false;} // used in Upgrades to denote that initialize is finished
 
     // used in level classes
     public void setGameover(boolean w){gameover = w;}

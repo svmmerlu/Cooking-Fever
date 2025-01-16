@@ -121,6 +121,11 @@ class Upgrades {
                 setup.setImgs(getStars()); // update imgs and stars for setup whenever an item is upgraded
             }
         }
+
+        if(setup.getReinitialized()){
+            setup.setImgs(getStars());
+            setup.setReinitialized();
+        }
     }
 }
  

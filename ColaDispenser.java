@@ -44,22 +44,6 @@ class ColaDispenser{
         }
     }
 
-    public void reinitialize(){
-        airtime = new long[]{-1, -1, -1}; // none of them are grabbed
-        grabbedtype = 1; // cola has no toppings
-        served = false;
-        grabbed = null;
-        timer = new long[]{0, 0, 0}; // colas start dispensing immediately when level starts
-        mouseHeld = false;
-        mousePressPoint = null;
-
-        cola = new boolean[4][3];
-        for(int i = 0; i < 3; i++){
-            for(int j = 0; j < 2; j++){
-                cola[i][j] = false;
-            }
-        }
-    }
 
     public int getGrabbedType(){return grabbedtype;}
 
