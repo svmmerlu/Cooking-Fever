@@ -106,6 +106,10 @@ class CookingFeverPanel extends JPanel implements ActionListener {
             if(screen >= LEVEL1 && screen <= LEVEL10 && setup.menuHover()){
                 menu.setPrevScreen(screen);
                 screen = MENU;
+                // REINITIALIZE STUFF
+                setup.reinitialize();
+                level1 = new Level1(); // restart level 1 for next time it's used
+                //repeat for other lvls
             }
 
             if(screen == GAMEOVER && gameover.getNextHover()){
