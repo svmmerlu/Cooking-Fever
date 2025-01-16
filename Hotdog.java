@@ -88,6 +88,32 @@ class Hotdog{
         costs[SAUSAGE][3] = 13;
     }
 
+    public void reinitialize(){
+        served = false;
+        grabbed = null;
+        grabbedtype = -1;
+        grabbedPlate = -1;
+        loses = 0;
+        pause = 0;
+        plates = 0;
+        mouseHeld = false;
+        mousePressPoint = null;
+        mouseReleasePoint = null;
+        p = null;
+        mouseClicked = false;
+        sausagegrabbed = new boolean[]{false, false, false, false};
+        ketchupgrabbed = false;
+        table = new boolean[3][3];
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++) table[i][j] = false;
+        }
+
+        sausages = new long[4][2];
+        for(int i = 0; i < 4; i++){
+            sausages[i][TIME] = FALSE;
+            sausages[i][STATE] = RAW;
+        }
+    }
     public void removeHotdog(){served = true;}
     public Rectangle getGrabbedRect(){return grabbed;}
     public int getGrabbedType(){return grabbedtype;}

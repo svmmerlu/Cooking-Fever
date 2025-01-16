@@ -61,7 +61,14 @@ class CookingFeverPanel extends JPanel implements ActionListener {
         if(screen == UPGRADES)upgrades.draw(g);
         if(screen == MENU)menu.draw(g);
         if(screen == LEVELS)levels.draw(g);
-        if(screen == LEVEL1)level1.draw(g);
+        if(screen == LEVEL1){
+            level1.draw(g);
+            if(setup.getGameover()){
+                screen = GAMEOVER; // if gameover, switch screen
+                setup.reinitialize();
+                level1 = new Level1(); // restart level 1 for next time it's used
+            } 
+        }
         if(screen == GAMEOVER)gameover.draw(g);
     }
 
@@ -104,10 +111,9 @@ class CookingFeverPanel extends JPanel implements ActionListener {
             if(screen >= LEVEL1 && screen <= LEVEL10 && setup.menuHover()){
                 menu.setPrevScreen(screen);
                 screen = MENU;
-                if(setup.getGameover()) screen = GAMEOVER;
             }
 
-            //if(screen == GAMEOVER && gameover.nextHover()) screen = LEVELS;
+            if(screen == GAMEOVER && gameover.getNextHover()) screen = LEVELS; // switch screen to LEVELS if next btn on gamover screen is clicked
 
             setup.setMousePressPoint(e.getPoint());
         }

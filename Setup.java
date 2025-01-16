@@ -71,6 +71,23 @@ public class Setup {
                                {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true}};
     }
 
+    // used after a game ends and the screen changes to gameover so setup can be used for the next lvl the player plays
+    public void reinitialize(){
+        // reinitialize all variables that change thru a lvl
+        gameover = false;
+        itemupgraded = false;
+        mouseReleased = false; 
+        starttime = -1;
+        goal = -1;
+        money = 0;
+        starachieved = 0;
+        level = 0;
+        p = null;
+        hamburger.reinitialize();
+        hotdog.reinitialize();
+        coladispenser.reinitialize();
+    }
+
     // used in level classes
     public void setGameover(boolean w){gameover = w;}
     public boolean getGameover(){return gameover;} // used in panel to switch screens
