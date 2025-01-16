@@ -146,7 +146,9 @@ class Level1{
             grabbed = null;
         }
 
-        if(people[people.length-1].getState() == WALKINGAWAY) setup.setGameover(true); // after last customer walks away, game is over
+        if(people[people.length-1].getState() == WALKINGAWAY){
+            setup.setGameover(true); // after last customer walks away, game is over
+        }
         
     }
 }

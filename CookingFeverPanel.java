@@ -63,8 +63,9 @@ class CookingFeverPanel extends JPanel implements ActionListener {
         if(screen == LEVELS)levels.draw(g);
         if(screen == LEVEL1){
             level1.draw(g);
+            if(setup.getGameover()) screen = GAMEOVER;
         }
-        if(screen == GAMEOVER)gameover.draw(g);
+        if(screen == GAMEOVER){gameover.draw(g);}
     }
 
     class ClickListener implements MouseListener {
