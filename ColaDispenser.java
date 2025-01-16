@@ -88,9 +88,6 @@ class ColaDispenser{
 
         for(int i = 0; i <= strs[COLADISPENSER]; i++){  // iterate thru each cola. the # of colas correlates to the dispenser stars
             long elapsed = System.currentTimeMillis() - timer[i];
-            if(cola[i][GRABBED] && airtime[i] == -1){
-                airtime[i] = System.currentTimeMillis();
-            }
             if(strs[COLADISPENSER] == 0){ // has 1 cola and takes 10s to dispense
                 if(elapsed >= 10000 && !cola[i][DISPENSED] && !cola[i][GRABBED]){
                     g.drawImage(imgs[EMPTYCOLA], 160, 385, null); 
@@ -144,18 +141,20 @@ class ColaDispenser{
         for(int i = 0; i < x; i++){
             if(cola[i][DISPENSED] && mouseHeld && colaRects[strs[COLADISPENSER]][i].contains(mousePressPoint)){
                 cola[i][GRABBED] = true;
+                airtime[i] = System.currentTimeMillis();
                 grabbed = colaRects[strs[COLADISPENSER]][i];
             }
 
             if(cola[i][GRABBED] && !mouseHeld){
+                cola[i][GRABBED] = false;
+                timer[i] = timer[i] + (System.currentTimeMillis() - airtime[i]); // add airtime from dispensed time (decrease elapsed time)
+                airtime[i] = -1; // airtime = -1
+                grabbed = null;
                 if(served){
                     cola[i][DISPENSED] = false;
                     timer[i] = System.currentTimeMillis(); //reset time
+                    served = false;
                 }
-                cola[i][GRABBED] = false;
-                timer[i] = timer[i] - (System.currentTimeMillis() - airtime[i]); // subtract airtime from dispensed time
-                airtime[i] = -1; // airtime = -1
-                grabbed = null;
             }
         }
     }
