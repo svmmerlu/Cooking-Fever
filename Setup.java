@@ -48,6 +48,7 @@ public class Setup {
             levelunlocked[i] = false;
         }
         levelunlocked[0] = true;
+        levelunlocked[1] = true;
         reinitialized = true;
         gameover = false;
         itemupgraded = false;

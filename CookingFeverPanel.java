@@ -12,6 +12,7 @@ class CookingFeverPanel extends JPanel implements ActionListener {
     private Menu menu;
     private Levels levels;
     private Level1 level1;
+    private Level2 level2;
     private Setup setup;
     private Gameover gameover;
 
@@ -25,6 +26,7 @@ class CookingFeverPanel extends JPanel implements ActionListener {
         menu = new Menu(screen);
         levels = new Levels();
         level1 = new Level1();
+        level2 = new Level2();
         timer = new Timer(20, this);
         timer.start();
 
@@ -63,6 +65,10 @@ class CookingFeverPanel extends JPanel implements ActionListener {
         if(screen == LEVELS)levels.draw(g);
         if(screen == LEVEL1){
             level1.draw(g);
+            if(setup.getGameover()) screen = GAMEOVER;
+        }
+        if(screen == LEVEL2){
+            level2.draw(g);
             if(setup.getGameover()) screen = GAMEOVER;
         }
         if(screen == GAMEOVER){gameover.draw(g);}
@@ -111,6 +117,7 @@ class CookingFeverPanel extends JPanel implements ActionListener {
                 setup.reinitialize();
                 level1 = new Level1(); // restart level 1 for next time it's used
                 //repeat for other lvls
+                level2 = new Level2();
             }
 
             if(screen == GAMEOVER && gameover.getNextHover()){
@@ -118,6 +125,8 @@ class CookingFeverPanel extends JPanel implements ActionListener {
                     screen = GAMEOVER; // if gameover, switch screen
                     setup.reinitialize();
                     level1 = new Level1(); // restart level 1 for next time it's used
+                    //repeat for other lvls
+                    level2 = new Level2();
                 } 
 
               screen = LEVELS; // switch screen to LEVELS if next btn on gamover screen is clicked
