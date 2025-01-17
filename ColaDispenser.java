@@ -138,8 +138,10 @@ class ColaDispenser{
                 }
             }
         }
+
+
         for(int i = 0; i < x; i++){
-            if(cola[i][DISPENSED] && mouseHeld && colaRects[strs[COLADISPENSER]][i].contains(mousePressPoint)){
+            if(!cola[i][GRABBED] && cola[i][DISPENSED] && mouseHeld && colaRects[strs[COLADISPENSER]][i].contains(mousePressPoint)){
                 cola[i][GRABBED] = true;
                 airtime[i] = System.currentTimeMillis();
                 grabbed = colaRects[strs[COLADISPENSER]][i];

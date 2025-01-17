@@ -89,8 +89,8 @@ class Level1{
             }
         }
         for(int i = 0; i < people.length; i++){ 
-            if(people[i].getRect()!=null)g.drawRect(people[i].getRect().x, people[i].getRect().y, people[i].getRect().width, people[i].getRect().height);
-            if(grabbed!=null) g.drawRect(grabbed.x, grabbed.y, grabbed.width, grabbed.height);
+            //if(people[i].getRect()!=null)g.drawRect(people[i].getRect().x, people[i].getRect().y, people[i].getRect().width, people[i].getRect().height);
+            //(grabbed!=null) g.drawRect(grabbed.x, grabbed.y, grabbed.width, grabbed.height);
             // check if player is grabbing an object and if that object collides with a person who is ordering
             if(grabbed != null && people[i].getState() == ORDERING && people[i].getRect().contains(grabbed) && setup.getMouseReleased()){
                 if(grabbedtype == orders[i]){ // if the grabbed object matches what that person ordered
