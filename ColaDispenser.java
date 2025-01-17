@@ -56,7 +56,7 @@ class ColaDispenser{
 
         imgs = new Image[]{new ImageIcon("coladispenser" + stars[COLADISPENSER] + ".png").getImage(), 
                            new ImageIcon("cola" + stars[COLA] + ".png").getImage(),
-                           new ImageIcon("emptycola" + stars[COLA] + ".png").getImage()}; // empty cola
+                           new ImageIcon("empty" + stars[COLA] + ".png").getImage()}; // empty cola
     }
 
     public int getCost(){
@@ -85,59 +85,59 @@ class ColaDispenser{
 
     public void draw(Graphics g){
         g.drawImage(imgs[COLADISPENSER], 90, 248, null);
+        int x = 0;
+        if(strs[COLADISPENSER] == 0 || strs[COLADISPENSER] == 1) x = 1;
+        if(strs[COLADISPENSER] == 2) x = 2;
+        if(strs[COLADISPENSER] == 3) x = 3;
 
-        for(int i = 0; i <= strs[COLADISPENSER]; i++){  // iterate thru each cola. the # of colas correlates to the dispenser stars
+        for(int i = 0; i < x; i++){  // iterate thru each cola
             long elapsed = System.currentTimeMillis() - timer[i];
             if(strs[COLADISPENSER] == 0){ // has 1 cola and takes 10s to dispense
-                if(elapsed >= 10000 && !cola[i][DISPENSED] && !cola[i][GRABBED]){
+                if(elapsed < 10000 && !cola[i][DISPENSED] && !cola[i][GRABBED]){
                     g.drawImage(imgs[EMPTYCOLA], 160, 385, null); 
-                    cola[i][DISPENSED] = true;
                 }
-                else if(!cola[i][GRABBED]){ // if cola is grabbed it is no longer drawn on the dispenser 
+                if(elapsed >= 10000 && !cola[i][GRABBED]){
+                    cola[i][DISPENSED] = true;
                     g.drawImage(imgs[COLA], 160, 385, null); 
                 }
             }
             
             if(strs[COLADISPENSER] == 1){
-                if(elapsed >= 9000 && !cola[i][DISPENSED] && !cola[i][GRABBED]){
+                if(elapsed < 9000 && !cola[i][DISPENSED] && !cola[i][GRABBED]){
                     g.drawImage(imgs[EMPTYCOLA], 160, 385, null); 
-                    cola[i][DISPENSED] = true;
                 }
-                else if(!cola[i][GRABBED]){
+                if(elapsed >= 9000 && !cola[i][GRABBED]){
+                    cola[i][DISPENSED] = true;
                     g.drawImage(imgs[COLA], 160, 385, null); 
                 }
             }
 
             if(strs[COLADISPENSER] == 2){
-                if(elapsed >= 7000 && !cola[i][DISPENSED] && !cola[i][GRABBED]){
+                if(elapsed < 7000 && !cola[i][DISPENSED] && !cola[i][GRABBED]){
                     if(i == 0) g.drawImage(imgs[EMPTYCOLA], 135, 378, null);
                     if(i == 1) g.drawImage(imgs[EMPTYCOLA], 185, 378, null);
-                    cola[i][DISPENSED] = true;
                 }
-                else if(!cola[i][GRABBED]){
+                if(elapsed >= 7000 && !cola[i][GRABBED]){
+                    cola[i][DISPENSED] = true;
                     if(i == 0) g.drawImage(imgs[COLA], 135, 378, null);
                     if(i == 1) g.drawImage(imgs[COLA], 185, 378, null);
                 }
             }
 
             if(strs[COLADISPENSER] == 3){
-                if(elapsed >= 4000 && !cola[i][DISPENSED] && !cola[i][GRABBED]){
+                if(elapsed < 4000 && !cola[i][DISPENSED] && !cola[i][GRABBED]){
                     if(i == 0) g.drawImage(imgs[EMPTYCOLA], 120, 382, null);
                     if(i == 1) g.drawImage(imgs[EMPTYCOLA], 165, 384, null);
                     if(i == 2) g.drawImage(imgs[EMPTYCOLA], 211, 384, null);
-                    cola[i][DISPENSED] = true;  
                 }
-                else if(!cola[i][GRABBED]){
+                if(elapsed >= 7000 && !cola[i][GRABBED]){
+                    cola[i][DISPENSED] = true;
                     if(i == 0) g.drawImage(imgs[COLA], 120, 382, null);
                     if(i == 1) g.drawImage(imgs[COLA], 165, 384, null);
                     if(i == 2) g.drawImage(imgs[COLA], 211, 384, null);
                 }
             }
         }
-        int x = 0;
-        if(strs[COLADISPENSER] == 0 || strs[COLADISPENSER] == 1) x = 1;
-        if(strs[COLADISPENSER] == 2) x = 2;
-        if(strs[COLADISPENSER] == 3) x = 3;
         for(int i = 0; i < x; i++){
             if(cola[i][DISPENSED] && mouseHeld && colaRects[strs[COLADISPENSER]][i].contains(mousePressPoint)){
                 cola[i][GRABBED] = true;
