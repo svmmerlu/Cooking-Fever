@@ -72,7 +72,7 @@ class Level1{
     
     public void draw(Graphics g){
         p = setup.getMouse();
-        if(grabbed == null){
+        if(grabbed == null){ // only update is grabbed isn't already a thing or else it will mess w the coordinates of the grabbed object
             grabbed = setup.getGrabbedRect();
             grabbedtype = setup.getGrabbedType();
         }
@@ -88,43 +88,46 @@ class Level1{
                 }
             }
         }
-        //g.drawRect(people[0].getRect().x, people[0].getRect().y, people[0].getRect().width, people[0].getRect().height);
-        //if(grabbed!=null) g.drawRect(grabbed.x, grabbed.y, grabbed.width, grabbed.height);
         for(int i = 0; i < people.length; i++){ 
+            if(people[i].getRect()!=null)g.drawRect(people[i].getRect().x, people[i].getRect().y, people[i].getRect().width, people[i].getRect().height);
+            if(grabbed!=null) g.drawRect(grabbed.x, grabbed.y, grabbed.width, grabbed.height);
+            // check if player is grabbing an object and if that object collides with a person who is ordering
             if(grabbed != null && people[i].getState() == ORDERING && people[i].getRect().contains(grabbed) && setup.getMouseReleased()){
-                if(grabbedtype == orders[i]){
-                    if(orders[i] == BURGER){
+                if(grabbedtype == orders[i]){ // if the grabbed object matches what that person ordered
+                    if(orders[i] == BURGER){ 
                         money[people[i].getRectNum()] = burger.getCost(false, false);
                         setup.removeBurger();
+                        System.out.println("BURGER");
                     }
                     if(orders[i] == COLA){
                         money[people[i].getRectNum()] = cola.getCost();
                         setup.removeCola();
+                        System.out.println("COLA");
                     } 
-                    orders[i] = COMPLETED;
-                    people[i].setOrderCompleted();
+                    orders[i] = COMPLETED; // update order
+                    people[i].setOrderCompleted(); // set order completed
                 }
             }
 
-            if(people[i].getRect()!=null && people[i].getState() == ORDERING){
+            if(people[i].getRect()!=null && people[i].getState() == ORDERING){ // draw the persons order on the speech bubble if they are ordering
                 if(orders[i] == BURGER) burger.drawBurger(g, people[i].getRect().x - 20,130, false, false);
                 if(orders[i] == COLA) cola.drawCola(g, people[i].getRect().x + 35, 185);
             }
 
-            if(orders[i] == COMPLETED || people[i].getState() == WALKINGAWAY){
-                people[i].moveAway();
+            if(orders[i] == COMPLETED || people[i].getState() == WALKINGAWAY){ // if order is completed or person is walking away
+                people[i].moveAway(); // make person walk away
             }
 
-            if(orders[i] != COMPLETED && people[i].getState() == WALKINGAWAY){
-                rectOccupied[people[i].getRectNum()] = false;
-                orders[i] = COMPLETED;
+            if(orders[i] != COMPLETED && people[i].getState() == WALKINGAWAY){ // a person is walking away bc their patience ran out
+                rectOccupied[people[i].getRectNum()] = false; // rect no longer occupied
+                orders[i] = COMPLETED; // mark order as done
             }
         }
 
         for(int i = 0; i < 4; i++){
-            if(money[i] != NONE){
+            if(money[i] != NONE){ // if there's money at this position
                 g.drawImage(coins, coinRects[i].x, coinRects[i].y, null);
-                if(!setup.getMouseReleased() && coinRects[i].contains(p)){
+                if(!setup.getMouseReleased() && coinRects[i].contains(p)){ // if player presses on the money
                     setup.addMoney(money[i]);
                     money[i] = NONE;
                     rectOccupied[i] = false; // spot no longer occupied once player collects the money in that spot
@@ -132,17 +135,17 @@ class Level1{
             }
         }
 
-        if(grabbed != null){
+        if(grabbed != null){ // update grabbed rectangle and drawing since they move with mouse point
             if(grabbedtype == BURGER){
                 grabbed = new Rectangle(p.x - 20, p.y - 20, 40, 40);
                 burger.drawBurger(g, p.x - 37 - 20, p.y - 35 - 20, false, false);
             }
             if(grabbedtype == COLA){
-                grabbed = new Rectangle(p.x, p.y, 40, 40);
+                grabbed = new Rectangle(p.x - 20, p.y - 20, 40, 40);
                 cola.drawCola(g, p.x, p.y);
             }
         }
-        if(setup.getMouseReleased()){
+        if(setup.getMouseReleased()){ // nothing is grabbed since mouse released
             grabbed = null;
         }
 
