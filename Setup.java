@@ -39,9 +39,15 @@ public class Setup {
     private Hamburger hamburger;
     private Hotdog hotdog;
     private ColaDispenser coladispenser;
+    private boolean []levelunlocked;
 
     private Setup() {
         // initialize variables
+        levelunlocked = new boolean[10];
+        for(int i = 0; i < 10; i++){
+            levelunlocked[i] = false;
+        }
+        levelunlocked[0] = true;
         reinitialized = true;
         gameover = false;
         itemupgraded = false;
@@ -91,12 +97,17 @@ public class Setup {
         coladispenser = new ColaDispenser();
     }
 
+    public boolean[] getLevelUnlocked(){return levelunlocked;} // used in Levels
+
     public boolean getReinitialized(){return reinitialized;} // used in Upgrades to setimgs
     public void setReinitialized(){reinitialized = false;} // used in Upgrades to denote that initialize is finished
 
     // used in level classes
     public void setGameover(boolean w){gameover = w;}
     public boolean getGameover(){return gameover;} // used in panel to switch screens
+
+    // used in levels
+    public int getLevel(){return level;} // to update unlocked levels
 
     // used in Upgrades
     public int getMoneyAfterLvl(){
@@ -106,7 +117,10 @@ public class Setup {
 
     // used in Upgrades
     public int getDiamondsAfterLvl(){
-        if(gameover) return starachieved;
+        if(gameover){
+            levelunlocked[level+1] = true;
+            return starachieved;
+        }
         return -1;
     }
 

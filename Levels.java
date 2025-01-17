@@ -25,12 +25,14 @@ class Levels{
                                                  new Rectangle(516, 285, 89, 40),
                                                  new Rectangle(637, 285, 89, 40)};
 
-    private Boolean []levelunlocked;
+    private boolean []levelunlocked;
     private int []stars;
     private Image levels, menubtn, menuhover, levellocked, levelhover, starlvl0, starlvl1, starlvl2;
     private Point p;
+    private Setup setup;
 
     public Levels(){
+        setup = Setup.getInstance();
         levels = new ImageIcon("levels.png").getImage();
         menubtn = new ImageIcon("menubtn.png").getImage();
         menuhover = new ImageIcon("menuhover.png").getImage();
@@ -40,9 +42,7 @@ class Levels{
         starlvl1 = new ImageIcon("1starlvl.png").getImage();
         starlvl2 = new ImageIcon("2starlvl.png").getImage();
 
-        levelunlocked = new Boolean[10];
-        levelunlocked[0] = true;
-        for(int i = 1; i < 10; i++) levelunlocked[i] = false;
+        levelunlocked = setup.getLevelUnlocked();
 
         stars = new int[10];
         stars[0] = 0;
@@ -68,6 +68,7 @@ class Levels{
     }
 
     public void draw(Graphics g){
+        levelunlocked = setup.getLevelUnlocked();
         g.drawImage(levels, 0, 0, null);
         g.drawImage(menubtn, 0, 0, null);
         if(menuHover()) g.drawImage(menuhover, 0, 0, null);
