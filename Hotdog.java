@@ -93,9 +93,9 @@ class Hotdog{
     public Rectangle getGrabbedRect(){return grabbed;}
     public int getGrabbedType(){return grabbedtype;}
 
-    public int getCost(boolean k){
+    public int getCost(){
         int cost = 0;
-        if(k) cost += costs[KETCHUPSQUIRT][strs[KETCHUPBOTTLE]];
+        if(strs[KETCHUPSQUIRT] != -1) cost += costs[KETCHUPSQUIRT][strs[KETCHUPBOTTLE]];
         cost += costs[SAUSAGE][strs[SAUSAGE]];
         cost += costs[BUN][strs[BUN]];
         return cost;
@@ -104,12 +104,11 @@ class Hotdog{
     public int getLoses(){return loses;}
 
     public void setMousePressPoint(Point point) {
-        if (point == null) {
-            throw new IllegalArgumentException("Point cannot be null");
+        if(point != null){
+            mousePressPoint = point;
+            mouseHeld = true;
+            mouseClicked = true;
         }
-        mousePressPoint = point;
-        mouseHeld = true;
-        mouseClicked = true;
     }
     
 
@@ -160,7 +159,7 @@ class Hotdog{
             long elapsed = System.currentTimeMillis() - sausages[pan][TIME];
             if(sausages[pan][STATE] == RAW){
                 g.drawImage(imgs[SAUSAGE], x, y, null);
-                if(strs[PANS] == 0 && elapsed >= 10000){
+                if(strs[PANS] == 0 && elapsed >= 10){ // 10000
                     sausages[pan][STATE] = DONE;
                     sausages[pan][TIME] = System.currentTimeMillis();
                 }
@@ -333,9 +332,12 @@ class Hotdog{
                 table[grabbedPlate][HASPLATE] = false;
                 table[grabbedPlate][HASKETCHUP] = false;
             }
-        }
 
-        //drawHotdog(g, 100, 100, true);
-        //g.drawRect(104, 100, 57,38);
+            if(!mouseHeld){
+                grabbed = null;
+                grabbedPlate = -1;
+                grabbedtype = -1;
+            }
+        }
     }
 }

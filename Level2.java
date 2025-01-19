@@ -24,9 +24,11 @@ class Level2{
     private long []spawntime; // the time person x spawns in / can start wlaking into the game if a spot is available
     private Hamburger burger;
     private ColaDispenser cola;
+    private Hotdog hotdog;
     private Rectangle grabbed;
     private Point p;
     public Level2(){
+        hotdog = new Hotdog();
         rectOccupied = new boolean[]{false, false, false, false};
         starttime = System.currentTimeMillis();
         money = new int[]{NONE, NONE, NONE, NONE};
@@ -36,12 +38,13 @@ class Level2{
         grabbedtype = -1;
         setup = Setup.getInstance();
         setup.setLevel(2);
-        setup.setGoal(110);
+        setup.setGoal(180);
         burger = new Hamburger(); 
         cola = new ColaDispenser();
         burger.setImgs(setup.getBurgerStars());
         cola.setImgs(setup.getColaStars());
-        orders = new int[]{BURGER, COLA, BURGER, COLA, BURGER, BURGER, COLA, COLA, BURGER, COLA, BURGER, COLA};
+        hotdog.setImgs(setup.getHotdogStars());
+        orders = new int[]{HOTDOG, COLA, COLA, BURGER, BURGER, HOTDOG, BURGER, COLA, HOTDOG, HOTDOG, HOTDOG, COLA};
         
         people = new Person[]{new Person(EARMUFFMAN), new Person(PONYTAILWOMAN), new Person(OLDWOMAN), 
                               new Person(GREYHOODIEKID), new Person(PONYTAILWOMAN), new Person(BLONDEPIXIEWOMAN),
@@ -104,6 +107,11 @@ class Level2{
                         setup.removeCola();
                         System.out.println("COLA");
                     } 
+                    if(orders[i] == HOTDOG){
+                        money[people[i].getRectNum()] = hotdog.getCost();
+                        setup.removeHotdog();
+                        System.out.println("HOTDOG");
+                    } 
                     orders[i] = COMPLETED; // update order
                     people[i].setOrderCompleted(); // set order completed
                 }
@@ -112,6 +120,7 @@ class Level2{
             if(people[i].getRect()!=null && people[i].getState() == ORDERING){ // draw the persons order on the speech bubble if they are ordering
                 if(orders[i] == BURGER) burger.drawBurger(g, people[i].getRect().x - 20,130, false, false);
                 if(orders[i] == COLA) cola.drawCola(g, people[i].getRect().x + 35, 185);
+                if(orders[i] == HOTDOG) hotdog.drawHotdog(g, people[i].getRect().x + 35, 185, false);
             }
 
             if(orders[i] == COMPLETED || people[i].getState() == WALKINGAWAY){ // if order is completed or person is walking away
@@ -143,6 +152,10 @@ class Level2{
             if(grabbedtype == COLA){
                 grabbed = new Rectangle(p.x - 20, p.y - 20, 40, 40);
                 cola.drawCola(g, p.x, p.y);
+            }
+            if(grabbedtype == HOTDOG){
+                grabbed = new Rectangle(p.x - 20, p.y - 20, 55, 40);
+                hotdog.drawHotdog(g, p.x - 25, p.y - 17, false);
             }
         }
         if(setup.getMouseReleased()){ // nothing is grabbed since mouse released

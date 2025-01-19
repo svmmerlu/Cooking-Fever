@@ -156,6 +156,11 @@ public class Setup {
         return new int[]{strs[DISPENSER], strs[COLA], strs[COLA]};
     }
 
+    public int[] getHotdogStars(){
+        itemupgraded = false;
+        return new int[]{strs[HOTDOGBUNS], strs[SAUSAGES], strs[SAUSAGES], strs[SAUSAGES], strs[KETCHUP], strs[KETCHUP], strs[KETCHUP], strs[HOTDOGTABLE], strs[HOTDOGPAN]};
+    }
+
     public boolean getItemUpgraded(){return itemupgraded;};
 
     // used in level classes to set the goal
@@ -165,11 +170,13 @@ public class Setup {
     // used in level classes
     public Rectangle getGrabbedRect(){
         if(hamburger.getGrabbedRect()!=null) return hamburger.getGrabbedRect();
+        if(hotdog.getGrabbedRect()!=null) return hotdog.getGrabbedRect();
         if(coladispenser.getGrabbedRect()!=null) return coladispenser.getGrabbedRect();
         else return null;
     } // gets type of item grabbed
     public int getGrabbedType(){
         if(hamburger.getGrabbedType() != -1) return hamburger.getGrabbedType();
+        if(hotdog.getGrabbedType() != -1) return hotdog.getGrabbedType();
         if(coladispenser.getGrabbedType() != -1) return coladispenser.getGrabbedType();
         else return -1;
     }
@@ -177,6 +184,7 @@ public class Setup {
     // the grabbed item was handed to a customer and it was the customers order meaning it should no longer exist
     public void removeBurger(){hamburger.removeBurger();}
     public void removeCola(){coladispenser.removeCola();}
+    public void removeHotdog(){hotdog.removeHotdog();}
 
 
 
