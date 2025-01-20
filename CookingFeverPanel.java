@@ -16,8 +16,6 @@ class CookingFeverPanel extends JPanel implements ActionListener {
     private Level3 level3;
     private Level4 level4;
     private Level5 level5;
-    private Level6 level6;
-    private Level7 level7;
     private Setup setup;
     private Gameover gameover;
 
@@ -35,8 +33,6 @@ class CookingFeverPanel extends JPanel implements ActionListener {
         level3 = new Level3();
         level4 = new Level4();
         level5 = new Level5();
-        level6 = new Level6();
-        level7 = new Level7();
         timer = new Timer(20, this);
         timer.start();
 
@@ -85,7 +81,6 @@ class CookingFeverPanel extends JPanel implements ActionListener {
             level3.draw(g);
             if(setup.getGameover()) screen = GAMEOVER;
         }
-        /* 
         if(screen == LEVEL4){
             level4.draw(g);
             if(setup.getGameover()) screen = GAMEOVER;
@@ -94,15 +89,6 @@ class CookingFeverPanel extends JPanel implements ActionListener {
             level5.draw(g);
             if(setup.getGameover()) screen = GAMEOVER;
         }
-        if(screen == LEVEL6){
-            level6.draw(g);
-            if(setup.getGameover()) screen = GAMEOVER;
-        }
-        if(screen == LEVEL7){
-            level7.draw(g);
-            if(setup.getGameover()) screen = GAMEOVER;
-        }
-            */
         if(screen == GAMEOVER){gameover.draw(g);}
     }
 
@@ -153,8 +139,6 @@ class CookingFeverPanel extends JPanel implements ActionListener {
                 level3 = new Level3();
                 level4 = new Level4();
                 level5 = new Level5();
-                level6 = new Level6();
-                level7 = new Level7();
             }
 
             if(screen == GAMEOVER && gameover.getNextHover()){
@@ -167,8 +151,6 @@ class CookingFeverPanel extends JPanel implements ActionListener {
                     level3 = new Level3();
                     level4 = new Level4();
                     level5 = new Level5();
-                    level6 = new Level6();
-                    level7 = new Level7();
                 } 
 
               screen = LEVELS; // switch screen to LEVELS if next btn on gamover screen is clicked
