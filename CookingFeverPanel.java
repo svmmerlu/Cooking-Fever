@@ -85,6 +85,7 @@ class CookingFeverPanel extends JPanel implements ActionListener {
             level3.draw(g);
             if(setup.getGameover()) screen = GAMEOVER;
         }
+        /* 
         if(screen == LEVEL4){
             level4.draw(g);
             if(setup.getGameover()) screen = GAMEOVER;
@@ -101,6 +102,7 @@ class CookingFeverPanel extends JPanel implements ActionListener {
             level7.draw(g);
             if(setup.getGameover()) screen = GAMEOVER;
         }
+            */
         if(screen == GAMEOVER){gameover.draw(g);}
     }
 

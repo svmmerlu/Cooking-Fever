@@ -1,7 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 
-class Level2{
+class Level3{
     public static final int PURPLEHATWOMAN = 0, GREYHOODIEKID = 1, PONYTAILWOMAN = 2, BLONDEPIXIEWOMAN = 3, EARMUFFMAN = 4;
     public static final int GREENVESTKID = 5, BLONDEMAN = 6, OLDWOMAN = 7, FLUFFYHATMAN = 8;
     public static final int BURGER = 0, COLA = 1, HOTDOG = 2, KETCHUPHOTDOG = 3, LETTUCEBURGER = 4, TOMATOBURGER = 5;
@@ -27,7 +27,7 @@ class Level2{
     private Hotdog hotdog;
     private Rectangle grabbed;
     private Point p;
-    public Level2(){
+    public Level3(){
         hotdog = new Hotdog();
         rectOccupied = new boolean[]{false, false, false, false};
         starttime = System.currentTimeMillis();
@@ -37,26 +37,26 @@ class Level2{
         grabbed = null;
         grabbedtype = -1;
         setup = Setup.getInstance();
-        setup.setLevel(2);
-        setup.setGoal(180);
+        setup.setLevel(3);
+        setup.setGoal(200);
         burger = new Hamburger(); 
         cola = new ColaDispenser();
         burger.setImgs(setup.getBurgerStars());
         cola.setImgs(setup.getColaStars());
         hotdog.setImgs(setup.getHotdogStars());
-        orders = new int[]{HOTDOG, COLA, COLA, BURGER, BURGER, HOTDOG, BURGER, COLA, HOTDOG, HOTDOG, HOTDOG, COLA};
+        orders = new int[]{KETCHUPHOTDOG, BURGER, COLA, COLA, COLA, KETCHUPHOTDOG, COLA, HOTDOG, KETCHUPHOTDOG, BURGER, HOTDOG, COLA, COLA};
         
-        people = new Person[]{new Person(EARMUFFMAN), new Person(PONYTAILWOMAN), new Person(OLDWOMAN), 
-                              new Person(GREYHOODIEKID), new Person(PONYTAILWOMAN), new Person(BLONDEPIXIEWOMAN),
-                              new Person(PURPLEHATWOMAN), new Person(BLONDEMAN), new Person(BLONDEPIXIEWOMAN),
-                              new Person(GREYHOODIEKID), new Person(PONYTAILWOMAN), new Person(BLONDEPIXIEWOMAN)};
+        people = new Person[]{new Person(PURPLEHATWOMAN), new Person(GREYHOODIEKID), new Person(GREENVESTKID), 
+                              new Person(OLDWOMAN), new Person(EARMUFFMAN), new Person(PONYTAILWOMAN),
+                              new Person(BLONDEPIXIEWOMAN), new Person(BLONDEMAN), new Person(PURPLEHATWOMAN),
+                              new Person(EARMUFFMAN), new Person(GREYHOODIEKID), new Person(BLONDEPIXIEWOMAN), new Person(BLONDEMAN)};
         
         peopleposnum = new int[people.length];
         for(int i = 0; i < people.length; i++){
             peopleposnum[i] = NONE; // all positions r currently undetermined
         }
         
-        spawntime = new long[]{5000, 7000, 12000, 13000, 48000, 51000, 54000, 58000, 91000, 93000, 97000, 101000};
+        spawntime = new long[]{6000, 9000, 12000, 15000, 45000, 48000, 51000, 58000, 54000, 84000, 87000, 90000, 93000, 123000};
     }
 
     public void setStarttime(long s){starttime = s;}
